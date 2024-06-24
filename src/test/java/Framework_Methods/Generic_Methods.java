@@ -1,5 +1,7 @@
 package Framework_Methods;
 
+import com.microsoft.playwright.BrowserType;
+import com.microsoft.playwright.Playwright;
 import org.apache.commons.io.FileUtils;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.openxml4j.util.ZipSecureFile;
@@ -74,231 +76,318 @@ public class Generic_Methods {
                 "<head>\n" +
                 "    <meta charset=\"UTF-8\">\n" +
                 "    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n" +
-                "    <title>Toggle Table</title>\n" +
+                "    <title>Automation_Execution_Report</title>\n" +
                 "    <script src=\"https://cdn.jsdelivr.net/npm/chart.js\"></script>\n" +
-                " <script src=\"https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.4/xlsx.full.min.js\"></script>" +
+                "    <script src=\"https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.4/xlsx.full.min.js\"></script>\n" +
+                "    <script src=\"https://cdn.jsdelivr.net/npm/chartjs-plugin-chartjs-3d\"></script>\n" +
+                "    <script type=\"text/javascript\" src=\"https://www.gstatic.com/charts/loader.js\"></script>\n" +
                 "    <style>\n" +
-                "        body, html {\n" +
-                "            zoom: 97%;\n" +
-                "            height: 99%;\n" +
-                "            margin: 0;\n" +
-                "            padding: 0;\n" +
-                "        }\n" +
-                "        /* Style for the scrollable panel */\n" +
-                "        .scrollable-panel {\n" +
-                "            width: 98%; /* Set your desired width */\n" +
-                "            height: 475px; /* Set your desired height */\n" +
-                "            overflow-y: scroll; /* Enable vertical scrolling */\n" +
-                "            overflow-x: hidden; /* Hide horizontal scrollbar */\n" +
-                "            border: 1px solid #ccc; /* Add a border for visualization */\n" +
-                "            padding: 10px; /* Add padding to the content */\n" +
-                "        }\n" +
-                "        .container {\n" +
-                "            display: flex;\n" +
-                "            height: 99%;\n" +
-                "        }\n" +
-                "        .left-panel {\n" +
-                "            flex: 75%;\n" +
-                "            background-color: #f0f0f0; /* Adjust as needed */\n" +
-                "        }\n" +
-                "        .right-panel {\n" +
-                "            flex: 25%;\n" +
-                "            display: flex;\n" +
-                "            flex-direction: column;\n" +
-                "        }\n" +
-                "        .right-top-panel {\n" +
-                "            flex: 50%;\n" +
-                "            background-color: #e0e0e0; /* Adjust as needed */\n" +
-                "            display: flex;\n" +
-                "            flex-direction: column;\n" +
-                "            align-items: center; /* Center content horizontally */\n" +
-                "            justify-content: center; /* Center content vertically */\n" +
-                "        }\n" +
-                "        .right-bottom-panel {\n" +
-                "            flex: 50%;\n" +
-                "            background-color: #e0e0e0; /* Adjust as needed */\n" +
-                "            display: flex;\n" +
-                "            flex-direction: column;\n" +
-                "            align-items: center; /* Center content horizontally */\n" +
-                "            justify-content: center; /* Center content vertically */\n" +
-                "        }\n" +
-                "        .left-top-panel {\n" +
-                "            flex: 40%; /*background-color: #e0e0e0; /* Adjust as needed */\n" +
-                "            display: flex;\n" +
-                "            flex-direction: column; /*align-items: center; /* Center content horizontally */ /*justify-content: center; /* Center content vertically */\n" +
-                "        }\n" +
-                "        .left-bottom-panel {\n" +
-                "            flex: 60%; /*background-color: #e0e0e0; /* Adjust as needed */\n" +
-                "            display: flex;\n" +
-                "            flex-direction: column;\n" +
-                "            align-items: flex-start; /* Center content horizontally */\n" +
-                "            justify-content: center; /* Center content vertically */\n" +
-                "        }\n" +
+                "        body, html {zoom: 100%;height: 99%;margin: 0;padding: 0;overflow: hidden; /* Disable scrolling on body */}\n" +
+                "        .container {display: flex;height: 100%;}\n" +
+                "        .right-panel {height: 68%;flex: 1;border: 0px solid #ccc;padding: 10px;}\n" +
+                "        .left-panel {height: 68%;flex: 1;border: 0px solid #ccc;padding: 10px;overflow-y: hidden;}\n" +
+                "        .horizontal-top-panel {height: 1%; /* Fixed height for the horizontal panel */ /* background-color: #f0f0f0;*/border-bottom: 0px solid #ccc;display: flex;justify-content: left;align-items: center;}\n" +
+                "        .horizontal-bottom-panel {height: 28%; /* Fixed height for the horizontal panel */ /* background-color: #f0f0f0;*/border-bottom: 0px solid #ccc;display: flex;justify-content: left;align-items: center;}\n" +
+                "        .horizontal-bottom-panel-first {width: 1%; /* Fixed height for the horizontal panel */ /* background-color: #f0f0f0;*/ /*border-bottom: 1px solid #ccc;*/display: flex;justify-content: left;align-items: center;}\n" +
+                "        .horizontal-bottom-panel-second {width: 29%; /* Fixed height for the horizontal panel */ /* background-color: #f0f0f0;*/ /*border-bottom: 1px solid #ccc;*/display: flex;justify-content: left;align-items: center;}\n" +
+                "        .horizontal-bottom-panel-third {width: 15%; /* Fixed height for the horizontal panel */ /*background-color: #f0f0f0;*/ /*border-bottom: 1px solid #ccc;*/display: flex;justify-content: left;align-items: center;}\n" +
+                "        .horizontal-bottom-panel-fourth {width: 15%; /* Fixed height for the horizontal panel */ /* background-color: #f0f0f0;*/ /*border-bottom: 1px solid #ccc;*/display: flex;justify-content: left;align-items: center;}\n" +
+                "        .horizontal-last-panel {width: 40%; /* Fixed height for the horizontal panel */ /* background-color: #f0f0f0;*/ /*border-bottom: 1px solid #ccc;*/display: flex;flex-direction: column;align-items: center;}\n" +
                 "        .tab {\n" +
-                "            overflow: hidden;\n" +
-                "            border: 1px solid #ccc;\n" +
-                "            background-color: #f1f1f1;\n" +
+                "            overflow-y: auto;\n" +
+                "            border: 0px solid #ccc;\n" +
+                "            background-color: transparent;\n" +
                 "        }\n" +
-                "        /* Style the buttons inside the tab */\n" +
+                "\n" +
                 "        .tab button {\n" +
-                "            background-color: inherit;\n" +
-                "            float: left;\n" +
+                "            background-color: darkblue;\n" +
                 "            border: none;\n" +
                 "            outline: none;\n" +
                 "            cursor: pointer;\n" +
-                "            padding: 14px 16px;\n" +
-                "            transition: 0.3s;\n" +
+                "            padding: 6px 9px;\n" +
+                "            margin-right: 5px;\n" +
+                "            font-size: 10px;\n" +
+                "            color: white; /* Text color */\n" +
+                "            border-radius: 8px; /* Rounded corners */\n" +
+                "            position: relative;\n" +
+                "            transition: color 0.3s ease, background-color 0.3s ease;\n" +
                 "        }\n" +
-                "        /* Change background color of buttons on hover */\n" +
-                "        .tab button:hover {\n" +
-                "            background-color: #ddd;\n" +
-                "        }\n" +
-                "        /* Create an active/current tablink class */\n" +
+                "\n" +
                 "        .tab button.active {\n" +
-                "            background-color: #ccc;\n" +
+                "            background-color: #007bff; /* Active background color */\n" +
+                "            color: white; /* Active text color */\n" +
+                "            box-shadow: 0 2px 2px rgba(0, 0, 0, 0.1); /* Shadow effect */\n" +
                 "        }\n" +
-                "        /* Style the tab content */\n" +
+                "\n" +
+                "        .tab button:not(.active):hover {\n" +
+                "            background-color: #f0f0f0; /* Hover background color */\n" +
+                "            color: #333; /* Hover text color */\n" +
+                "        }\n" +
+                "\n" +
+                "        .tab button.active::before {\n" +
+                "            content: '';\n" +
+                "            position: absolute;\n" +
+                "            bottom: 0;\n" +
+                "            left: 50%;\n" +
+                "            transform: translateX(-50%);\n" +
+                "            width: 50%;\n" +
+                "            height: 3px;\n" +
+                "            background-color: #fff; /* Indicator line color */\n" +
+                "        }\n" +
+                "\n" +
                 "        .tabcontent {\n" +
-                "            display: none;\n" +
-                "            width: 99%; /* Ensure the content occupies 100% of the available width */\n" +
-                "            padding: 6px 12px;\n" +
-                "            border: 1px solid #ccc;\n" +
+                "            display: block; /* Ensure the content is displayed */\n" +
+                "            width: 100%; /* Ensure the content occupies 100% of the available width */\n" +
+                "            max-height: 96%; /* Adjust 100px as needed */\n" +
+                "            overflow-y: auto; /* Enable vertical scrolling when content exceeds max-height */\n" +
+                "            padding: 1px; /* Adjust padding as needed */\n" +
+                "            border: 0px solid #ccc;\n" +
                 "            border-top: none;\n" +
+                "            box-sizing: border-box; /* Ensure padding and border are included in width calculation */\n" +
                 "        }\n" +
-                "        table {\n" +
-                "            width: 99%;\n" +
-                "            border-collapse: collapse;\n" +
-                "            border: 2px solid #ddd; /* Border around the table */\n" +
-                "            font-family: 'Verdana', serif; /* Specify the font family */\n" +
-                "            font-size: 13px; /* Set the font size */\n" +
-                "            margin-bottom: 05px; /* Adjust the value as needed */\n" +
+                "\n" +
+                "        /* Additional specificity to ensure styles are applied */\n" +
+                "        body .tabcontent {\n" +
+                "            display: none;\n" +
                 "        }\n" +
+                "        body .tabcontent {display: none;}\n" +
+                "        table {width: 99%;border-collapse: collapse;border: 2px solid #ddd; /* Border around the table */font-family: 'Verdana', serif; /* Specify the font family */font-size: 12px; /* Set the font size */margin-bottom: 05px; /* Adjust the value as needed */}\n" +
                 "        th {\n" +
                 "            border: 1px solid #ddd; /* Border around header cells */\n" +
-                "            padding: 8px;\n" +
+                "            padding: 5px;\n" +
                 "            text-align: center;\n" +
+                "            font-family: 'Verdana', serif; /* Specify the font family */\n" +
+                "            font-size: 11px; /* Set the font size */\n" +
                 "            background-color: #00008B; /* Background color for header cells */\n" +
-                "            color: white; /* Text color for header cells */" +
+                "            color: white; /* Text color for header cells */\n" +
                 "        }\n" +
-                "        td {\n" +
-                "            border: 1px solid #ddd; /* Border around data cells */\n" +
-                "            padding: 8px;\n" +
-                "            text-align: center;\n" +
-                "        }\n" +
-                "        a {\n" +
-                "            text-decoration: none; /* Remove underline */\n" +
-                "        }\n" +
-                "        .toggle-table {\n" +
-                "            display: none; /* Hide by default */\n" +
-                "        }\n" +
-                "        .pagination {\n" +
-                "            display: inline-block;\n" +
-                "            margin-top: 0px;\n" +
-                "            font-family: Arial, sans-serif;\n" +
-                "        }\n" +
-                "        .pagination a {\n" +
-                "            color: black;\n" +
-                "            float: left;\n" +
-                "            padding: 4px 10px;\n" +
-                "            text-decoration: none;\n" +
-                "            transition: background-color .3s;\n" +
-                "            border: 1px solid #ddd;\n" +
+                "        td {border: 1px solid #ddd; /* Border around data cells */padding: 5px;text-align: center;}\n" +
+                "        a {text-decoration: none; /* Remove underline */}\n" +
+                "        .toggle-table {display: none; /* Hide by default */}\n" +
+                "        .pagination {display: inline-block;margin-top: 0px;font-family: Arial, sans-serif;}\n" +
+                "        .pagination a {color: black;float: left;padding: 0px 7px;text-decoration: none;transition: background-color .3s;border: 1px solid #ddd;font-weight: bold;}\n" +
+                "        .pagination a.active {background-color: #4CAF50;color: white;border: 1px solid #4CAF50;}\n" +
+                "        .pagination a:hover:not(.active) {background-color: #ddd;}\n" +
+                "        .horizontal-table .header {background-color: #00008B;color: white;padding: 8px;text-align: center;flex: 1;border-right: 1px solid #ddd;}\n" +
+                "        .horizontal-table .data {flex: 2;padding: 8px;text-align: center;border-right: 1px solid #ddd;}\n" +
+                "        .horizontal-table .data:last-child {border-right: none; /* Remove border for last data column */}\n" +
+                "h1 {\n" +
+                "            font-size: 24px; /* Increased font size for better prominence */\n" +
                 "            font-weight: bold;\n" +
+                "            color: darkblue; /* Adjusted color to a shade of blue */\n" +
+                "            text-transform: uppercase;\n" +
+                "            letter-spacing: 2px;\n" +
+                "            text-align: center;\n" +
+                "            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.4); /* Enhanced soft shadow for depth */\n" +
+                "            margin: 0;\n" +
+                "            padding: 16px 24px; /* Increased padding for better spacing */\n" +
+                "            /*background-color: #fff; /* White background for the header */\n" +
+                "            /*border-radius: 12px; /* Slightly increased border radius for smoother corners */\n" +
+                "            /*box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Soft shadow for depth */\n" +
+                "            transition: all 0.3s ease; /* Smooth transition for hover effects */\n" +
                 "        }\n" +
-                "        .pagination a.active {\n" +
-                "            background-color: #4CAF50;\n" +
-                "            color: white;\n" +
-                "            border: 1px solid #4CAF50;\n" +
+                "\n" +
+                "        h1:hover {\n" +
+                "            transform: scale(1.05); /* Scale effect on hover for a subtle interactive feel */\n" +
+                "            /*box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2); /* Enhanced shadow on hover */\n" +
+                "        }\n"+
+                ".hint {\n" +
+                "            position: relative;\n" +
+                "            cursor: pointer;\n" +
                 "        }\n" +
-                "        .pagination a:hover:not(.active) {\n" +
-                "            background-color: #ddd;\n" +
+                "\n" +
+                "        .hint::after {\n" +
+                "            content: attr(data-hint);\n" +
+                "            position: absolute;\n" +
+                "            background-color: darkslategray; /* Blue background */\n" +
+                "            color: #fff; /* White text color */\n" +
+                "            padding: 9px; /* Padding around text */\n" +
+                "            border-radius: 9px; /* Rounded corners */\n" +
+                "            bottom: 120%; /* Position above the element */\n" +
+                "            left: 80%; /* Center horizontally */\n" +
+                "            transform: translateX(-50%); /* Center horizontally */\n" +
+                "            opacity: 0; /* Initially hidden */\n" +
+                "            /*transition: opacity 0.75s ease-in-out; /* Smooth opacity transition */\n" +
+                "            white-space: nowrap; /* Prevent line breaks */\n" +
+                "            font-size: 12px; /* Adjust font size */\n" +
+                "            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Shadow for better visibility */\n" +
                 "        }\n" +
+                "\n" +
+                "        .hint:hover::after {\n" +
+                "            opacity: 1; /* Show tooltip on hover */\n" +
+                "        }\n"+
                 "    </style>\n" +
                 "</head>\n" +
                 "<body>\n" +
-                "<button id=\"exportButton\">Export to Excel</button>" +
+                "<div class=\"horizontal-top-panel\"></div>\n" +
+                "<div class=\"horizontal-bottom-panel\">\n" +
+                "    <div class=\"horizontal-bottom-panel-first\"></div>\n" +
+                "    <div class=\"horizontal-bottom-panel-second\">\n" +
+                "        <table>\n" +
+                "            <tr>\n" +
+                "                <th style=\"width: 100px; text-align: left; font-size: 10px;\">\n" +
+                "                    <span style=\"text-transform: uppercase; font-size: 1.25em;\">E</span>XECUTED\n" +
+                "                    <span style=\"text-transform: uppercase; font-size: 1.25em;\">B</span>Y\n" +
+                "                </th>\n" +
+                "                <td style=\"width: 100px; text-align: left;\">Executed_By</td>\n" +
+                "            </tr>\n" +
+                "            <tr>\n" +
+                "                <th style=\"width: 100px; text-align: left; font-size: 10px;\">\n" +
+                "                    <span style=\"text-transform: uppercase; font-size: 1.25em;\">E</span>XECUTION\n" +
+                "                    <span style=\"text-transform: uppercase; font-size: 1.25em;\">D</span>ATE\n" +
+                "                </th>\n" +
+                "                <td style=\"width: 100px; text-align: left;\">Execution_Date</td>\n" +
+                "            </tr>\n" +
+                "            <tr>\n" +
+                "                <th style=\"width: 100px; text-align: left; font-size: 10px;\">\n" +
+                "                    <span style=\"text-transform: uppercase; font-size: 1.25em;\">T</span>OTAL\n" +
+                "                    <span style=\"text-transform: uppercase; font-size: 1.25em;\">E</span>XECUTIONS\n" +
+                "                </th>\n" +
+                "                <td style=\"width: 100px; text-align: left;\">Total_Summary_Executions</td>\n" +
+                "            </tr>\n" +
+                "            <tr>\n" +
+                "                <th style=\"width: 100px; text-align: left; font-size: 10px;\">\n" +
+                "                    <span style=\"text-transform: uppercase; font-size: 1.25em;\">P</span>ASSED\n" +
+                "                    <span style=\"text-transform: uppercase; font-size: 1.25em;\">E</span>XECUTIONS\n" +
+                "                </th>\n" +
+                "                <td style=\"width: 100px; text-align: left;\">Passed_Summary_Executions</td>\n" +
+                "            </tr>\n" +
+                "            <tr>\n" +
+                "                <th style=\"width: 100px; text-align: left; font-size: 10px;\">\n" +
+                "                    <span style=\"text-transform: uppercase; font-size: 1.25em;\">F</span>AILED\n" +
+                "                    <span style=\"text-transform: uppercase; font-size: 1.25em;\">E</span>XECUTIONS\n" +
+                "                </th>\n" +
+                "                <td style=\"width: 100px; text-align: left;\">Failed_Summary_Executions</td>\n" +
+                "            </tr>\n" +
+                "            <tr>\n" +
+                "                <th style=\"width: 100px; text-align: left; font-size: 10px;\">\n" +
+                "                    <span style=\"text-transform: uppercase; font-size: 1.25em;\">E</span>XPORT\n" +
+                "                    <span style=\"text-transform: uppercase; font-size: 1.25em;\">E</span>XECUTIONS\n" +
+                "                </th>\n" +
+                "                <td style=\"width: 100px; text-align: left;\">\n" +
+                "                    <button id=\"exportButton\">Export to Excel</button>\n" +
+                "                </td>\n" +
+                "            </tr>\n" +
+                "        </table>\n" +
+                "    </div>\n" +
+                "    <div class=\"horizontal-bottom-panel-third\">\n" +
+                "        <div id=\"piechart_3d\" style=\"width: 300px; height: 200px;\"></div>\n" +
+                "        <script type=\"text/javascript\">\n" +
+                "            google.charts.load('current', {'packages': ['corechart']});\n" +
+                "            google.charts.setOnLoadCallback(drawChart);\n" +
+                "            function drawChart() {\n" +
+                "                var data = new google.visualization.DataTable();\n" +
+                "                data.addColumn('string', 'Color');\n" +
+                "                data.addColumn('number', 'Value');\n" +
+                "                data.addRows([\n" +
+                "                    ['Pass', Passed_Summary_Executions],\n" +
+                "                    ['Fail', Failed_Summary_Executions]\n" +
+                "                ]);\n" +
+                "                var options = {\n" +
+                "                    width: 300,\n" +
+                "                    height: 200,\n" +
+                "                    is3D: true, // Enable 3D effect\n" +
+                "                    colors: ['green', 'red'], // Green for Pass, Red for Fail\n" +
+                "                    legend: {\n" +
+                "                        position: 'bottom' // Display legend below the chart\n" +
+                "                    }\n" +
+                "                };\n" +
+                "                // Instantiate and draw the chart, passing in some options.\n" +
+                "                var chart = new google.visualization.PieChart(document.getElementById('piechart_3d'));\n" +
+                "                chart.draw(data, options);\n" +
+                "            }\n" +
+                "        </script>\n" +
+                "    </div>\n" +
+                "    <div class=\"horizontal-bottom-panel-fourth\">\n" +
+                "        <div id=\"columnchart_2d\" style=\"width: 300px; height: 225px;\"></div>\n" +
+                "        <script type=\"text/javascript\">\n" +
+                "            google.charts.load(\"current\", { packages: ['corechart'] });\n" +
+                "            google.charts.setOnLoadCallback(drawChart);\n" +
+                "            function drawChart() {\n" +
+                "                var data = google.visualization.arrayToDataTable([\n" +
+                "                    [\"Element\", \"Count\", { role: \"style\" }, { role: \"annotation\" }],\n" +
+                "                    [\"Pass\", Passed_Summary_Executions, \"green\", Passed_Summary_Executions],\n" +
+                "                    [\"Fail\", Failed_Summary_Executions, \"red\", Failed_Summary_Executions]\n" +
+                "                ]);\n" +
+                "                var options = {\n" +
+                "                    width: 300,\n" +
+                "                    height: 200,\n" +
+                "                    bar: { groupWidth: \"50%\" },\n" +
+                "                    legend: { position: \"none\" },\n" +
+                "                    tooltip: { isHtml: true }, // Enable HTML content in tooltips\n" +
+                "                    hAxis: { title: 'Status' }, // Label for horizontal axis\n" +
+                "                    vAxis: { title: 'Count' }, // Label for vertical axis\n" +
+                "                    annotations: {\n" +
+                "                        alwaysOutside: false, // Place annotations inside the bars\n" +
+                "                        textStyle: {\n" +
+                "                            fontSize: 12,\n" +
+                "                            bold: true,\n" +
+                "                            italic: false,\n" +
+                "                            color: '#333'\n" +
+                "                        }\n" +
+                "                    }\n" +
+                "                };\n" +
+                "                var chart = new google.visualization.ColumnChart(document.getElementById(\"columnchart_2d\"));\n" +
+                "                chart.draw(data, options);\n" +
+                "                // After the chart renders, adjust the annotations position\n" +
+                "                setTimeout(function () {\n" +
+                "                    var chartContainer = document.getElementById('columnchart_2d');\n" +
+                "                    var labels = chartContainer.getElementsByTagName('text');\n" +
+                "                    for (var i = 0; i < labels.length; i++) {\n" +
+                "                        if (labels[i].getAttribute('text-anchor') === 'middle') {\n" +
+                "                            var y = parseFloat(labels[i].getAttribute('y'));\n" +
+                "                            labels[i].setAttribute('y', y + 15); // Adjust Y position as needed\n" +
+                "                        }\n" +
+                "                    }\n" +
+                "                }, 100); // Adjust the delay time as needed\n" +
+                "            }\n" +
+                "        </script>\n" +
+                "    </div>\n" +
+                "    <div class=\"horizontal-last-panel\">\n" +
+                "        <!--<img src=\"https://picsum.photos/800/600\" alt=\"Lorem Picsum Placeholder\" width=\"200\" height=\"100\" style=\"margin-top: 20px;\">-->\n" +
+                "        <h1><span style=\"text-transform: uppercase; font-size: 1.25em;\">&emsp;&emsp;T</span>EST<span style=\"text-transform: uppercase; font-size: 1.25em;\">&ensp;A</span>UTOMATION<span style=\"text-transform: uppercase; font-size: 1.25em;\">&ensp;S</span>UMMARY&ensp;&ensp;</h1>\n" +
+                "    </div>\n" +
+                "</div>\n" +
                 "<div class=\"container\">\n" +
                 "    <div class=\"left-panel\">\n" +
-                "        <div class=\"left-top-panel\">\n" +
-                "            <table>\n" +
-                "                <tr>\n" +
-                "                    <th>Executed By</th>\n" +
-                "                    <th>Execution Date</th>\n" +
-                "                    <th>Total Executions</th>\n" +
-                "                    <th>Passed Executions</th>\n" +
-                "                    <th>Failed Executions</th>\n" +
-                "                </tr>\n" +
-                "                <tr>\n" +
-                "                    <td style=\"width: 340px; text-align: center;\">Executed_By</td>\n" +
-                "                    <td>Execution_Date</td>\n" +
-                "                    <td>Total_Summary_Executions</td>\n" +
-                "                    <td>Passed_Summary_Executions</td>\n" +
-                "                    <td>Failed_Summary_Executions</td>\n" +
-                "                </tr>\n" +
-                "            </table>\n" +
-                "            <table id=\"SummaryTable\">\n" +
-                "                <tr>\n" +
-                "                    <th>Workflow</th>\n" +
-                "                    <th>Browser</th>\n" +
-                "                    <th>Start Time</th>\n" +
-                "                    <th>End Time</th>\n" +
-                "                    <th>Duration</th>\n" +
-                "                    <th>Status</th>\n" +
-                "                </tr>\n" +
-                "                summarytablesreplacetext\n" +
-                "            </table>\n" +
-                "            <div class=\"pagination\" id=\"pagination\"></div>\n" +
-                "        </div>\n" +
-                "        <div class=\"left-bottom-panel\">\n" +
-                "            <div class=\"scrollable-panel\">\n" +
-                "                <div class=\"tab\">\n" +
-                "                    <button class=\"tablinks\" onclick=\"openTab(event, 'testCases')\">Test Cases</button>\n" +
-                "                    <button class=\"tablinks\" onclick=\"openTab(event, 'logs')\">Logs</button>\n" +
-                "                </div>\n" +
-                "                <div id=\"testCases\" class=\"tabcontent\">\n" +
-                "                    testcasetablereplace\n" +
-                "                </div>\n" +
-                "                <div id=\"logs\" class=\"tabcontent\">\n" +
-                "                    logtablereplace\n" +
-                "                </div>\n" +
-                "            </div>\n" +
-                "        </div>\n" +
+                "        <table id=\"Summary_Table\">\n" +
+                "            <tr>\n" +
+                "                <th style=\"width: 100px; text-align: center; font-size: 10px;\">\n" +
+                "                    <span style=\"text-transform: uppercase; font-size: 1.25em;\">W</span>ORKFLOWS\n" +
+                "                </th>\n" +
+                "                <th style=\"width: 100px; text-align: center; font-size: 10px;\">\n" +
+                "                    <span style=\"text-transform: uppercase; font-size: 1.25em;\">B</span>ROWSER\n" +
+                "                </th>\n" +
+                "                <th style=\"width: 100px; text-align: center; font-size: 10px;\">\n" +
+                "                    <span style=\"text-transform: uppercase; font-size: 1.25em;\">S</span>TART\n" +
+                "                    <span style=\"text-transform: uppercase; font-size: 1.25em;\">T</span>IME\n" +
+                "                </th>\n" +
+                "                <th style=\"width: 100px; text-align: center; font-size: 10px;\">\n" +
+                "                    <span style=\"text-transform: uppercase; font-size: 1.25em;\">E</span>ND\n" +
+                "                    <span style=\"text-transform: uppercase; font-size: 1.25em;\">T</span>IME\n" +
+                "                </th>\n" +
+                "                <th style=\"width: 100px; text-align: center; font-size: 10px;\">\n" +
+                "                    <span style=\"text-transform: uppercase; font-size: 1.25em;\">D</span>URATION\n" +
+                "                </th>\n" +
+                "                <th style=\"width: 100px; text-align: center; font-size: 10px;\">\n" +
+                "                    <span style=\"text-transform: uppercase; font-size: 1.25em;\">S</span>TATUS\n" +
+                "                </th>\n" +
+                "            </tr>\n" +
+                "            summarytablesreplacetext\n" +
+                "        </table>\n" +
+                "        <div class=\"pagination\" id=\"pagination\"></div>\n" +
                 "    </div>\n" +
                 "    <div class=\"right-panel\">\n" +
-                "        <div class=\"right-top-panel\">\n" +
-                "            <h2>Execution Summary</h2>\n" +
-                "            <canvas id=\"myPieChart\" width=\"300\" height=\"300\"></canvas>\n" +
-                "            <script>\n" +
-                "                var pieChartData = {\n" +
-                "                    labels: ['Passed Scripts', 'Failed Scripts'],\n" +
-                "                    datasets: [{\n" +
-                "                        data: [Passed_Summary_Executions, Failed_Summary_Executions],\n" +
-                "                        backgroundColor: [\n" +
-                "                            'rgba(0, 255, 0, 0.5)',\n" +
-                "                            'rgba(255, 0, 0, 0.5)'\n" +
-                "                        ],\n" +
-                "                        borderColor: [\n" +
-                "                            'rgba(0, 255, 0, 0.5)',\n" +
-                "                            'rgba(255, 0, 0, 0.5)'\n" +
-                "                        ],\n" +
-                "                        borderWidth: 1\n" +
-                "                    }]\n" +
-                "                };\n" +
-                "                var ctx = document.getElementById('myPieChart').getContext('2d');\n" +
-                "                var myPieChart = new Chart(ctx, {\n" +
-                "                    type: 'pie',\n" +
-                "                    data: pieChartData,\n" +
-                "                    options: {\n" +
-                "                        responsive: false, // Disable responsiveness\n" +
-                "                        maintainAspectRatio: false // Disable aspect ratio maintenance\n" +
-                "                    }\n" +
-                "                });\n" +
-                "            </script>\n" +
+                "        <div class=\"tab\">\n" +
+                "            <button class=\"tablinks\" onclick=\"openTab(event, 'testCases')\"><span style=\"text-transform: uppercase; font-size: 1.5em;\">T</span>EST \n" +
+                "    <span style=\"text-transform: uppercase; font-size: 1.5em;\">C</span>ASES</button>\n" +
+                "            <button class=\"tablinks\" onclick=\"openTab(event, 'logs')\"><span style=\"text-transform: uppercase; font-size: 1.5em;\">L</span>OGS</button>\n" +
                 "        </div>\n" +
-                "        <div class=\"right-bottom-panel\">\n" +
-                "            <h2>Test Case Summary</h2>\n" +
-                "            <div id=\"passCountsTestCases\"></div>\n" +
-                "           <div id=\"failCountsTestCases\"></div>\n" +
+                "        <div id=\"testCases\" class=\"tabcontent\">\n" +
+                "            testcasetablereplace\n" +
+                "        </div>\n" +
+                "        <div id=\"logs\" class=\"tabcontent\">\n" +
+                "            logtablereplace\n" +
                 "        </div>\n" +
                 "    </div>\n" +
                 "</div>\n" +
@@ -321,85 +410,91 @@ public class Generic_Methods {
                 "    }\n" +
                 "</script>\n" +
                 "<script>\n" +
-                "    var tableId = 'SummaryTable';\n" +
-                "    var table = document.getElementById(tableId);\n" +
-                "    var rowsPerPage = 5;\n" +
-                "    var rows = table.rows.length - 1;\n" +
-                "    var pageCount = Math.ceil(rows / rowsPerPage);\n" +
-                "    var pagination = document.getElementById('pagination');\n" +
-                "\n" +
-                "    function createPaginationButtons() {\n" +
-                "        var firstButton = createButton('First', function () {\n" +
-                "            showPage(table, 1);\n" +
-                "        });\n" +
-                "        pagination.appendChild(firstButton);\n" +
-                "        var prevButton = createButton('Previous', function () {\n" +
-                "            var currentPage = getCurrentPage();\n" +
-                "            if (currentPage > 1) {\n" +
-                "                showPage(table, currentPage - 1);\n" +
+                "    // Function to initialize pagination for tables with IDs starting with a given prefix\n" +
+                "    function initializePagination(tableIdPrefix, rowsPerPage, paginationClass) {\n" +
+                "        var tables = document.querySelectorAll('[id^=\"' + tableIdPrefix + '\"]');\n" +
+                "        tables.forEach(function (table) {\n" +
+                "            var rows = table.rows.length - 1; // Exclude header row\n" +
+                "            var pageCount = Math.ceil(rows / rowsPerPage);\n" +
+                "            var pagination = document.createElement('div');\n" +
+                "            pagination.classList.add(paginationClass);\n" +
+                "            table.parentNode.insertBefore(pagination, table.nextSibling);\n" +
+                "            createPaginationButtons();\n" +
+                "            function createPaginationButtons() {\n" +
+                "                var firstButton = createButton('First', function () {\n" +
+                "                    showPage(1);\n" +
+                "                });\n" +
+                "                pagination.appendChild(firstButton);\n" +
+                "                var prevButton = createButton('Previous', function () {\n" +
+                "                    var currentPage = getCurrentPage();\n" +
+                "                    if (currentPage > 1) {\n" +
+                "                        showPage(currentPage - 1);\n" +
+                "                    }\n" +
+                "                });\n" +
+                "                pagination.appendChild(prevButton);\n" +
+                "                for (var i = 1; i <= pageCount; i++) {\n" +
+                "                    var link = createButton(i, function () {\n" +
+                "                        var pageNumber = parseInt(this.innerHTML);\n" +
+                "                        showPage(pageNumber);\n" +
+                "                    });\n" +
+                "                    pagination.appendChild(link);\n" +
+                "                }\n" +
+                "                var nextButton = createButton('Next', function () {\n" +
+                "                    var currentPage = getCurrentPage();\n" +
+                "                    if (currentPage < pageCount) {\n" +
+                "                        showPage(currentPage + 1);\n" +
+                "                    }\n" +
+                "                });\n" +
+                "                pagination.appendChild(nextButton);\n" +
+                "                var lastButton = createButton('Last', function () {\n" +
+                "                    showPage(pageCount);\n" +
+                "                });\n" +
+                "                pagination.appendChild(lastButton);\n" +
                 "            }\n" +
-                "        });\n" +
-                "        pagination.appendChild(prevButton);\n" +
-                "        for (var i = 1; i <= pageCount; i++) {\n" +
-                "            var link = createButton(i, function () {\n" +
-                "                var pageNumber = parseInt(this.innerHTML);\n" +
-                "                showPage(table, pageNumber);\n" +
-                "            });\n" +
-                "            pagination.appendChild(link);\n" +
-                "        }\n" +
-                "        var nextButton = createButton('Next', function () {\n" +
-                "            var currentPage = getCurrentPage();\n" +
-                "            if (currentPage < pageCount) {\n" +
-                "                showPage(table, currentPage + 1);\n" +
+                "            function createButton(label, onclick) {\n" +
+                "                var button = document.createElement('a');\n" +
+                "                button.href = '#';\n" +
+                "                button.innerHTML = label;\n" +
+                "                button.addEventListener('click', onclick);\n" +
+                "                return button;\n" +
                 "            }\n" +
-                "        });\n" +
-                "        pagination.appendChild(nextButton);\n" +
-                "        var lastButton = createButton('Last', function () {\n" +
-                "            showPage(table, pageCount);\n" +
-                "        });\n" +
-                "        pagination.appendChild(lastButton);\n" +
-                "    }\n" +
-                "\n" +
-                "    function createButton(label, onclick) {\n" +
-                "        var button = document.createElement('a');\n" +
-                "        button.href = '#';\n" +
-                "        button.innerHTML = label;\n" +
-                "        button.addEventListener('click', onclick);\n" +
-                "        return button;\n" +
-                "    }\n" +
-                "\n" +
-                "    function getCurrentPage() {\n" +
-                "        var activeLink = pagination.querySelector('.active');\n" +
-                "        return parseInt(activeLink.innerHTML);\n" +
-                "    }\n" +
-                "\n" +
-                "    function showPage(table, pageNumber) {\n" +
-                "        var start = (pageNumber - 1) * rowsPerPage + 1;\n" +
-                "        var end = Math.min(start + rowsPerPage - 1, rows);\n" +
-                "\n" +
-                "        for (var i = 1; i <= rows; i++) {\n" +
-                "            var row = table.rows[i];\n" +
-                "            if (i >= start && i <= end) {\n" +
-                "                row.style.display = 'table-row';\n" +
-                "            } else {\n" +
-                "                row.style.display = 'none';\n" +
+                "            function getCurrentPage() {\n" +
+                "                var activeLink = pagination.querySelector('.active');\n" +
+                "                return parseInt(activeLink.innerHTML);\n" +
                 "            }\n" +
-                "        }\n" +
-                "        updateActiveLink(pageNumber);\n" +
-                "    }\n" +
+                "            function showPage(pageNumber) {\n" +
+                "                var start = (pageNumber - 1) * rowsPerPage + 1;\n" +
+                "                var end = Math.min(start + rowsPerPage - 1, rows);\n" +
                 "\n" +
-                "    function updateActiveLink(pageNumber) {\n" +
-                "        var links = pagination.getElementsByTagName('a');\n" +
-                "        for (var i = 0; i < links.length; i++) {\n" +
-                "            links[i].classList.remove('active');\n" +
-                "            if (parseInt(links[i].innerHTML) === pageNumber) {\n" +
-                "                links[i].classList.add('active');\n" +
+                "                for (var i = 1; i <= rows; i++) {\n" +
+                "                    var row = table.rows[i];\n" +
+                "                    if (i >= start && i <= end) {\n" +
+                "                        row.style.display = 'table-row';\n" +
+                "                    } else {\n" +
+                "                        row.style.display = 'none';\n" +
+                "                    }\n" +
+                "                }\n" +
+                "                updateActiveLink(pageNumber);\n" +
                 "            }\n" +
-                "        }\n" +
+                "            function updateActiveLink(pageNumber) {\n" +
+                "                var links = pagination.getElementsByTagName('a');\n" +
+                "                for (var i = 0; i < links.length; i++) {\n" +
+                "                    links[i].classList.remove('active');\n" +
+                "                    if (parseInt(links[i].innerHTML) === pageNumber) {\n" +
+                "                        links[i].classList.add('active');\n" +
+                "                    }\n" +
+                "                }\n" +
+                "            }\n" +
+                "            showPage(1); // Show first page initially\n" +
+                "        });\n" +
                 "    }\n" +
-                "\n" +
-                "    createPaginationButtons();\n" +
-                "    showPage(table, 1);\n" +
+                "    // Initialize pagination for tables starting with 'Table_For_TestCases_'\n" +
+                "    //initializePagination('Table_For_TestCases_', 10, 'pagination');\n" +
+                "    // Initialize pagination for tables starting with 'Table_For_TestCases_'\n" +
+                "    //initializePagination('Table_For_Logs_', 10, 'pagination');\n" +
+                "    // Initialize pagination for tables starting with 'Table_For_TestCases_'\n" +
+                "    initializePagination('Summary_Table', 18, 'pagination');\n" +
+                "    // You can initialize pagination for other table prefixes or adjust rows per page as needed\n" +
                 "</script>\n" +
                 "<script>\n" +
                 "    function toggleTable(testCasesTableId, logsTableId) {\n" +
@@ -440,8 +535,8 @@ public class Generic_Methods {
                 "        heading.textContent = searchText + \"ed Test Cases\";\n" +
                 "        targetDiv.appendChild(heading);\n" +
                 "        for (var i = 2; i < counts.length; i++) {\n" +
-                "            var heading= document.createElement(\"h2\");\n" +
-                "\t    heading.style.textAlign = \"center\";\n" +
+                "            var heading = document.createElement(\"h2\");\n" +
+                "            heading.style.textAlign = \"center\";\n" +
                 "            heading.textContent = counts[i];\n" +
                 "            targetDiv.appendChild(heading);\n" +
                 "        }\n" +
@@ -464,45 +559,73 @@ public class Generic_Methods {
                 "    }\n" +
                 "</script>\n" +
                 "<script>\n" +
-                "function displayImage(base64) {\n" +
-                "            var width = 1000;\n" +
-                "            var height = 500;\n" +
-                "            var left = (window.innerWidth - width) / 2;\n" +
-                "            var top = (window.innerHeight - height) / 2;\n" +
-                "            var newWindow = window.open(\"\", \"_blank\", \"width=\" + width + \",height=\" + height + \",left=\" + left + \",top=\" + top + \",toolbar=no,location=no,menubar=no,status=no,titlebar=no\");\n" +
-                "            newWindow.document.write(\"<style>body {margin: 0;}</style><img src='\" + base64 + \"' style='max-width: 100%; max-height: 100%;'>\");\n" +
-                "        }\n" +
+                "    function displayImage(base64) {\n" +
+                "        var width = 1000;\n" +
+                "        var height = 500;\n" +
+                "        var left = (window.innerWidth - width) / 2;\n" +
+                "        var top = (window.innerHeight - height) / 2;\n" +
+                "        var newWindow = window.open(\"\", \"_blank\", \"width=\" + width + \",height=\" + height + \",left=\" + left + \",top=\" + top + \",toolbar=no,location=no,menubar=no,status=no,titlebar=no\");\n" +
+                "        newWindow.document.write(\"<style>body {margin: 0;}</style><img src='\" + base64 + \"' style='max-width: 100%; max-height: 100%;'>\");\n" +
+                "    }\n" +
                 "</script>\n" +
                 "<script>\n" +
-                "document.getElementById(\"exportButton\").addEventListener(\"click\", function() {\n" +
-                "    var wb = XLSX.utils.book_new();\n" +
-                "    exportTableToExcel(\"SummaryTable\", \"Summary\", wb);\n" +
-                "    exportTablesWithPrefixToExcel(\"Table_For_Logs_\", \"Logs\", wb);\n" +
-                "    exportTablesWithPrefixToExcel(\"Table_For_TestCases_\", \"Test Cases\", wb);\n" +
-                "    XLSX.writeFile(wb, 'Export_Execution_Report.xlsx');\n" +
-                "});\n" +
-                "function exportTableToExcel(tableId, sheetName, workbook) {\n" +
-                "    var table = document.getElementById(tableId);\n" +
-                "    var wsData = [];\n" +
-                "    var rows = Array.from(table.querySelectorAll('tr')); // Get all rows of the table\n" +
-                "    rows.forEach(function(row) {\n" +
-                "        var rowData = [];\n" +
-                "        row.querySelectorAll('th, td').forEach(function(cell) {\n" +
-                "            rowData.push(cell.textContent);\n" +
+                "    document.getElementById(\"exportButton\").addEventListener(\"click\", function () {\n" +
+                "        var wb = XLSX.utils.book_new();\n" +
+                "        exportTableToExcel(\"Summary_Table\", \"Summary\", wb);\n" +
+                "        exportTablesWithPrefixToExcel(\"Table_For_Logs_\", \"Logs\", wb);\n" +
+                "        exportTablesWithPrefixToExcel(\"Table_For_TestCases_\", \"TCs\", wb);\n" +
+                "        XLSX.writeFile(wb, 'Export_Execution_Report.xlsx');\n" +
+                "    });\n" +
+                "    function exportTableToExcel(tableId, sheetName, workbook) {\n" +
+                "        var table = document.getElementById(tableId);\n" +
+                "        var wsData = [];\n" +
+                "        // Get all rows of the table\n" +
+                "        var rows = Array.from(table.querySelectorAll('tr'));\n" +
+                "        // Iterate through each row\n" +
+                "        rows.forEach(function (row) {\n" +
+                "            var rowData = [];\n" +
+                "            // Iterate through each cell (th or td) in the row\n" +
+                "            row.querySelectorAll('th, td').forEach(function (cell) {\n" +
+                "                // Modify here to get plain text content\n" +
+                "                var cellText = cell.textContent.trim(); // Get text content and trim any leading/trailing whitespace\n" +
+                "                rowData.push(cellText);\n" +
+                "            });\n" +
+                "            wsData.push(rowData);\n" +
                 "        });\n" +
-                "        wsData.push(rowData);\n" +
-                "    });\n" +
-                "    var ws = XLSX.utils.aoa_to_sheet(wsData);\n" +
-                "    XLSX.utils.book_append_sheet(workbook, ws, sheetName);\n" +
-                "}\n" +
-                "function exportTablesWithPrefixToExcel(tablePrefix, sheetNamePrefix, workbook) {\n" +
-                "    var tables = document.querySelectorAll('[id^=\"' + tablePrefix + '\"]');\n" +
-                "    tables.forEach(function(table, index) {\n" +
-                "        var sheetName = sheetNamePrefix + \" \" + (index + 1);\n" +
-                "        exportTableToExcel(table.id, sheetName, workbook); // Pass table id to exportTableToExcel\n" +
-                "    });\n" +
-                "}\n" +
-                "</script>" +
+                "        // Convert data array to worksheet\n" +
+                "        var ws = XLSX.utils.aoa_to_sheet(wsData);\n" +
+                "        // Set styles for each cell to achieve left alignment and vertical center alignment\n" +
+                "        Object.keys(ws).forEach(function (cellRef) {\n" +
+                "            var cell = ws[cellRef];\n" +
+                "            if (cell && cell.t === 's' && cell.v) {\n" +
+                "                cell.s = {\n" +
+                "                    alignment: {horizontal: 'left', vertical: 'center'},\n" +
+                "                    font: {sz: 12, bold: false, underline: false, italic: false}\n" +
+                "                };\n" +
+                "            }\n" +
+                "        });\n" +
+                "        // Append the worksheet to the workbook with the specified sheet name\n" +
+                "        XLSX.utils.book_append_sheet(workbook, ws, sheetName);\n" +
+                "    }\n" +
+                "    function exportTablesWithPrefixToExcel(tablePrefix, sheetNamePrefix, workbook) {\n" +
+                "        var tables = document.querySelectorAll('[id^=\"' + tablePrefix + '\"]');\n" +
+                "        tables.forEach(function (table, index) {\n" +
+                "            var constVariable = getConstantVariable(table.id);\n" +
+                "            var sheetName = sheetNamePrefix + \"_\" + constVariable;\n" +
+                "            exportTableToExcel(table.id, sheetName, workbook); // Pass table id to exportTableToExcel\n" +
+                "        });\n" +
+                "    }\n" +
+                "</script>\n" +
+                "<script>\n" +
+                "    const Constants = {\n" +
+                "        createtestcasesconstantVariables\n" +
+                "\n" +
+                "        createlogssconstantVariables\n" +
+                "    }\n" +
+                "function getConstantVariable(tableName) {\n" +
+                "        return Constants[tableName] || \"\"; // Returns empty string if tableName is not found in Constants\n" +
+                "    }\n" +
+                "</script>\n" +
                 "</body>\n" +
                 "</html>\n";
         String filePathAndName = System.getProperty("user.dir") + "\\src\\test\\java\\Reports\\" + fileName;
@@ -514,6 +637,34 @@ public class Generic_Methods {
         }
     }
 
+
+    public static String getBrowserNameForExportFile(String browserName) {
+        BrowserType browserType;
+        switch (browserName.toUpperCase().trim()) {
+            case "CHROME":
+                browserName="C";
+                break;
+            case "EDGE":
+                browserName="E";
+                break;
+            case "CHROME_HEADLESS":
+                browserName="CHL";
+                break;
+            case "EDGE_HEADLESS":
+                browserName="EHL";
+                break;
+            case "FIREFOX":
+                browserName="F";
+                break;
+            case "FIREFOX_HEADLESS":
+                browserName="FHL";
+                break;
+        }
+        return browserName;
+    }
+
+
+
     //writeSummaryInfoIntoHtmlReport
     public static void writeSummaryInfoIntoHtmlReport(String excelFileName, String htmlFileName) throws IOException {
         FileInputStream fis = new FileInputStream(System.getProperty("user.dir") + "\\src\\test\\java\\Reports\\" + excelFileName);
@@ -524,6 +675,8 @@ public class Generic_Methods {
         int rowNumber = xs.getLastRowNum();
         System.out.println(rowNumber);
         String valueForTable = "";
+        String valueTCsConstVariable = "";
+        String valueLogsConstVariable = "";
         for (int methodsCount = 1; methodsCount <= rowNumber; methodsCount++) {
             valueForTable = valueForTable + "<tr>";
             // Row row = xs.getRow(methodsCount);
@@ -536,12 +689,23 @@ public class Generic_Methods {
                     failedTests++;
                 }
                 if (cell == 1) {
-                    valueForTable = valueForTable + "\n<td style=\"width: 475px; text-align: left;\">\n<a href=\"#\" onclick=\"(function(){ toggleTable('" + "Table_For_TestCases_" + row.getCell(0) + "','" + "Table_For_Logs_" + row.getCell(0) + "'); countPassTextInColumns('Table_For_TestCases_" + row.getCell(0) + "'); return false; })();\">" + cellValue + "</a>\n</td>";
-                    //valueForTable = valueForTable + "<td style=\"width: 475px; text-align: left;\"><a href=\"#\" onclick=\"(function(){ toggleTable('Table_For_TestCases_" + row.getCell(0) + "','Table_For_Logs_" + row.getCell(0) + "'); countPassTextInColumns('Table_For_TestCases_" + row.getCell(0) + "'); return false; })();\">" + cellValue + "</a></td>";
+                    valueForTable = valueForTable + "\n<td style=\"width: 40%; text-align: left; overflow-wrap: anywhere;\"class=\"hint\" data-hint=\""+row.getCell(cell+1).toString()+"\">\n<a href=\"#\" onclick=\"(function(){ toggleTable('" + "Table_For_TestCases_" + row.getCell(0) + "','" + "Table_For_Logs_" + row.getCell(0) + "'); countPassTextInColumns('Table_For_TestCases_" + row.getCell(0) + "'); return false; })();\">" + cellValue + "</a>\n</td>";
+                    valueTCsConstVariable = valueTCsConstVariable + "Table_For_TestCases_" + row.getCell(0) + ":" + "\"" + cellValue;
+                    valueLogsConstVariable = valueLogsConstVariable + "Table_For_Logs_" + row.getCell(0) + ":" + "\"" + cellValue;
 
-                } else {
-                    //valueForTable = valueForTable + "<td><a href=\"#\" onclick=\"toggleTable('" + "Table_For_TestCases_" + row.getCell(0) + "','" + "Table_For_Logs_" + row.getCell(0) + "')\">" + cellValue + "</a></td>\n";
-                    valueForTable = valueForTable + "\n<td >\n<a href=\"#\" onclick=\"(function(){ toggleTable('" + "Table_For_TestCases_" + row.getCell(0) + "','" + "Table_For_Logs_" + row.getCell(0) + "'); countPassTextInColumns('Table_For_TestCases_" + row.getCell(0) + "'); return false; })();\">" + cellValue + "</a>\n</td>";
+                } else if (cell == 3) {
+                    valueForTable = valueForTable + "\n<td style=\"width: 10%; text-align: center;\">\n<a href=\"#\" onclick=\"(function(){ toggleTable('" + "Table_For_TestCases_" + row.getCell(0) + "','" + "Table_For_Logs_" + row.getCell(0) + "'); countPassTextInColumns('Table_For_TestCases_" + row.getCell(0) + "'); return false; })();\">" + cellValue + "</a>\n</td>";
+                    valueTCsConstVariable = valueTCsConstVariable + "_" + getBrowserNameForExportFile(String.valueOf(cellValue)) + "\",\n";
+                    valueLogsConstVariable = valueLogsConstVariable + "_" + getBrowserNameForExportFile(String.valueOf(cellValue)) + "\",\n";
+
+                } else if (cell == 4) {
+                    valueForTable = valueForTable + "\n<td style=\"width: 15%; text-align: center;\">\n<a href=\"#\" onclick=\"(function(){ toggleTable('" + "Table_For_TestCases_" + row.getCell(0) + "','" + "Table_For_Logs_" + row.getCell(0) + "'); countPassTextInColumns('Table_For_TestCases_" + row.getCell(0) + "'); return false; })();\">" + cellValue + "</a>\n</td>";
+                } else if (cell == 5) {
+                    valueForTable = valueForTable + "\n<td style=\"width: 15%; text-align: center;\">\n<a href=\"#\" onclick=\"(function(){ toggleTable('" + "Table_For_TestCases_" + row.getCell(0) + "','" + "Table_For_Logs_" + row.getCell(0) + "'); countPassTextInColumns('Table_For_TestCases_" + row.getCell(0) + "'); return false; })();\">" + cellValue + "</a>\n</td>";
+                } else if (cell == 6) {
+                    valueForTable = valueForTable + "\n<td style=\"width: 10%; text-align: center;\">\n<a href=\"#\" onclick=\"(function(){ toggleTable('" + "Table_For_TestCases_" + row.getCell(0) + "','" + "Table_For_Logs_" + row.getCell(0) + "'); countPassTextInColumns('Table_For_TestCases_" + row.getCell(0) + "'); return false; })();\">" + cellValue + "</a>\n</td>";
+                } else if (cell == 7) {
+                    valueForTable = valueForTable + "\n<td style=\"width: 10%; text-align: center;\">\n<a href=\"#\" onclick=\"(function(){ toggleTable('" + "Table_For_TestCases_" + row.getCell(0) + "','" + "Table_For_Logs_" + row.getCell(0) + "'); countPassTextInColumns('Table_For_TestCases_" + row.getCell(0) + "'); return false; })();\">" + cellValue + "</a>\n</td>";
                 }
             }
             valueForTable = valueForTable + "\n</tr>";
@@ -554,6 +718,8 @@ public class Generic_Methods {
         replaceTextInHTMLReport(htmlFileName, "Total_Summary_Executions", String.valueOf(passedTests + failedTests));
         replaceTextInHTMLReport(htmlFileName, "Passed_Summary_Executions", String.valueOf(passedTests));
         replaceTextInHTMLReport(htmlFileName, "Failed_Summary_Executions", String.valueOf(failedTests));
+        replaceTextInHTMLReport(htmlFileName, "createtestcasesconstantVariables", valueTCsConstVariable + "createtestcasesconstantVariables");
+        replaceTextInHTMLReport(htmlFileName, "createlogssconstantVariables", valueLogsConstVariable + "createlogssconstantVariables");
     }
 
     //writeTestCasesInfoIntoHtmlReport
@@ -573,7 +739,7 @@ public class Generic_Methods {
         }
         String valueForTable = null;
         for (String value : uniqueValues) {
-            valueForTable = "<table border=\"1\" id=\"Table_For_TestCases_" + value + "\" class=\"toggle-table\">\n<tr>\n<th>Test Case</th>\n<th>Image</th>\n<th>Status</th></tr>\n";
+            valueForTable = "<table border=\"1\" id=\"Table_For_TestCases_" + value + "\" class=\"toggle-table\">\n<tr>\n<th><span style=\"text-transform: uppercase; font-size: 1.25em;\">T</span>EST <span style=\"text-transform: uppercase; font-size: 1.25em;\">C</span>ASES</th>\n<th><span style=\"text-transform: uppercase; font-size: 1.25em;\">I</span>MAGES</th>\n<th><span style=\"text-transform: uppercase; font-size: 1.25em;\">S</span>TATUS</th></tr>\n";
             for (int testCases = 1; testCases <= xs.getLastRowNum(); testCases++) {
                 Row row = xs.getRow(testCases);
                 if (value.equals(row.getCell(0).toString())) {
@@ -582,7 +748,7 @@ public class Generic_Methods {
 
                         Cell cellValue = row.getCell(testCaseCol);
                         if (testCaseCol == 1) {
-                            valueForTable = valueForTable + "<td style=\"width: 475px; text-align: left;\">" + cellValue.toString() + "</td>\n";
+                            valueForTable = valueForTable + "<td style=\"width: 70%; text-align: left; overflow-wrap: anywhere;\">" + cellValue.toString() + "</td>\n";
                         } else if (testCaseCol == 2) {
                             if (cellValue.toString().isEmpty()) {
                                 valueForTable = valueForTable + "<td>" + "" + "</td>\n";
@@ -624,7 +790,7 @@ public class Generic_Methods {
         }
         String valueForTable = null;
         for (String value : uniqueValues) {
-            valueForTable = "<table border=\"1\" id=\"Table_For_Logs_" + value + "\" class=\"toggle-table\"><tr>\n<th>Date</th>\n<th>Time</th>\n<th>Log Type</th>\n<th>Description</th>\n</tr>\n";
+            valueForTable = "<table border=\"1\" id=\"Table_For_Logs_" + value + "\" class=\"toggle-table\"><tr>\n<th style=\"width: 15%; text-align: center;\"><span style=\"text-transform: uppercase; font-size: 1.25em;\">D</span>ATE</th>\n<th style=\"width: 10%; text-align: center;\"><span style=\"text-transform: uppercase; font-size: 1.25em;\">T</span>IME</th>\n<th style=\"width: 15%; text-align: center;\"><span style=\"text-transform: uppercase; font-size: 1.25em;\">L</span>OGTYPE</th>\n<th style=\"width: 60%; text-align: center;\"><span style=\"text-transform: uppercase; font-size: 1.25em;\">D</span>ESCRIPTION</th>\n</tr>\n";
             for (int logs = 1; logs <= xs.getLastRowNum(); logs++) {
                 Row row = xs.getRow(logs);
                 if (value.equals(row.getCell(0).toString())) {
@@ -632,12 +798,16 @@ public class Generic_Methods {
                     for (int logs_Cols = 1; logs_Cols < row.getLastCellNum(); logs_Cols++) {
                         Cell cellValue = row.getCell(logs_Cols);
                         if (logs_Cols == 4) {
-                            valueForTable = valueForTable + "<td style=\"width: 600px; text-align: left;\">" + cellValue.toString() + "</td>";
-                        } else {
-                            valueForTable = valueForTable + "<td>" + cellValue.toString() + "</td>";
+                            valueForTable = valueForTable + "<td style=\"width: 60%; text-align: left; overflow-wrap: anywhere;\">" + cellValue.toString() + "</td>";
+                        } else if (logs_Cols == 3) {
+                            valueForTable = valueForTable + "<td style=\"width: 15%; text-align: center;\">" + cellValue.toString() + "</td>";
+                        } else if (logs_Cols == 2) {
+                            valueForTable = valueForTable + "<td style=\"width: 10%; text-align: center;\">" + cellValue.toString() + "</td>";
+                        } else if (logs_Cols == 1) {
+                            valueForTable = valueForTable + "<td style=\"width: 15%; text-align: center;\">" + cellValue.toString() + "</td>";
                         }
                     }
-                    valueForTable = valueForTable + "</tr>\n";
+                    valueForTable = valueForTable + "\n</tr>\n";
                 }
             }
             valueForTable = valueForTable + "</table>\n";
@@ -758,7 +928,7 @@ public class Generic_Methods {
                 //Need to identify proper newly created excel sheet.
                 XSSFSheet sheet = workbook.createSheet("Summary_Info");
                 Row row = sheet.createRow(0);
-                String arr[] = {"Thread ID", "Workflow", "Browser", "Start Time", "End Time", "Duration", "Status"};
+                String arr[] = {"Thread_ID", "Workflow_Code","Workflow_Description", "Browser", "Start_Time", "End_Time", "Duration", "Status"};
                 //HashMap<String, String> logData = new HashMap();
                 sheet.setZoom(100);
                 for (int cell = 0; cell < arr.length; cell++) {
@@ -768,7 +938,7 @@ public class Generic_Methods {
                 }
                 XSSFSheet sheetForTestCases = workbook.createSheet("TestCases_Info");
                 Row rowValueForTestCases = sheetForTestCases.createRow(0);
-                String[] arrForTestCasesHeaders = {"Thread ID", "Test_Case", "Image", "Status"};
+                String[] arrForTestCasesHeaders = {"Thread_ID", "Test_Case", "Image", "Status"};
                 sheet.setZoom(100);
                 for (int cell = 0; cell < arrForTestCasesHeaders.length; cell++) {
                     Cell cellValue = rowValueForTestCases.createCell(cell);
@@ -777,7 +947,7 @@ public class Generic_Methods {
                 }
                 XSSFSheet sheetForLogs = workbook.createSheet("Logs_Info");
                 Row rowValueForLogs = sheetForLogs.createRow(0);
-                String arrForLogHeaders[] = {"Thread ID", "Date", "Time", "Log Type", "Description"};
+                String arrForLogHeaders[] = {"Thread_ID", "Date", "Time", "Log_Type", "Description"};
                 sheet.setZoom(100);
                 for (int cell = 0; cell < arrForLogHeaders.length; cell++) {
                     Cell cellValue = rowValueForLogs.createCell(cell);
@@ -1191,4 +1361,5 @@ public class Generic_Methods {
         //Scripts_Execution_Logs
         replaceTextInHTML("Scripts_Execution_Logs", "");
     }
+
 }
