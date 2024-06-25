@@ -49,162 +49,156 @@ public class Framework_Main extends Thread {
 
     //Thread run method
     public void run() {
-            boolean strMethodsReturnStatus = false;
-            long threadId = Thread.currentThread().getId();
-            //String executionStartTime = String.valueOf(new SimpleDateFormat("HH:mm:ss").format(new Date()));
-            String executionStartTime = getCurrentTime();
-            Playwright playwright = Playwright.create();
-            Browser browser = null;
-            Page page = null;
-            if (browserName.equalsIgnoreCase("Chrome")) {
-                page = getBrowser(playwright, browserName).launch(new BrowserType.LaunchOptions().setHeadless(false)
-                                .setChannel("chrome").setArgs(List.of("--start-maximized", "--incognito")))
-                        .newContext(new Browser.NewContextOptions().setViewportSize(null))
-                        .newPage();
-            } else if (browserName.equalsIgnoreCase("Firefox")) {
-                browser = getBrowser(playwright, browserName).launch(new BrowserType.LaunchOptions().setHeadless(false));
-                Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-                int width = (int) screenSize.getWidth();
-                int height = (int) screenSize.getHeight();
-                BrowserContext browserContext = browser.newContext(new Browser.NewContextOptions().setViewportSize(width - 30, height));
-                page = browserContext.newPage();
-            } else if (browserName.equalsIgnoreCase("Edge")) {
-                page = getBrowser(playwright, browserName).launch(new BrowserType.LaunchOptions().setHeadless(false)
-                                .setChannel("msedge").setArgs(List.of("--start-maximized", "--inprivate")))
-                        .newContext(new Browser.NewContextOptions().setViewportSize(null))
-                        .newPage();
-            } else if (browserName.equalsIgnoreCase("Chrome_Headless")) {
-                browser = getBrowser(playwright, browserName).launch(new BrowserType.LaunchOptions().setHeadless(true).setChannel("chrome"));
-                Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-                int width = (int) screenSize.getWidth();
-                int height = (int) screenSize.getHeight();
-                BrowserContext browserContext = browser.newContext(new Browser.NewContextOptions().setViewportSize(width - 30, height));
-                page = browserContext.newPage();
-            } else if (browserName.equalsIgnoreCase("Firefox_Headless")) {
-                browser = getBrowser(playwright, browserName).launch(new BrowserType.LaunchOptions().setHeadless(true));
-                Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-                int width = (int) screenSize.getWidth();
-                int height = (int) screenSize.getHeight();
-                BrowserContext browserContext = browser.newContext(new Browser.NewContextOptions().setViewportSize(width - 30, height));
-                page = browserContext.newPage();
-            } else if (browserName.equalsIgnoreCase("Edge_Headless")) {
-                browser = getBrowser(playwright, browserName).launch(new BrowserType.LaunchOptions().setHeadless(true).setChannel("msedge"));
-                Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-                int width = (int) screenSize.getWidth();
-                int height = (int) screenSize.getHeight();
-                BrowserContext browserContext = browser.newContext(new Browser.NewContextOptions().setViewportSize(width - 30, height));
-                page = browserContext.newPage();
+        boolean strMethodsReturnStatus = false;
+        long threadId = Thread.currentThread().getId();
+        //String executionStartTime = String.valueOf(new SimpleDateFormat("HH:mm:ss").format(new Date()));
+        String executionStartTime = getCurrentTime();
+        Playwright playwright = Playwright.create();
+        Browser browser = null;
+        Page page = null;
+        if (browserName.equalsIgnoreCase("Chrome")) {
+            page = getBrowser(playwright, browserName).launch(new BrowserType.LaunchOptions().setHeadless(false)
+                            .setChannel("chrome").setArgs(List.of("--start-maximized", "--incognito")))
+                    .newContext(new Browser.NewContextOptions().setViewportSize(null))
+                    .newPage();
+        } else if (browserName.equalsIgnoreCase("Firefox")) {
+            browser = getBrowser(playwright, browserName).launch(new BrowserType.LaunchOptions().setHeadless(false));
+            Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+            int width = (int) screenSize.getWidth();
+            int height = (int) screenSize.getHeight();
+            BrowserContext browserContext = browser.newContext(new Browser.NewContextOptions().setViewportSize(width - 30, height));
+            page = browserContext.newPage();
+        } else if (browserName.equalsIgnoreCase("Edge")) {
+            page = getBrowser(playwright, browserName).launch(new BrowserType.LaunchOptions().setHeadless(false)
+                            .setChannel("msedge").setArgs(List.of("--start-maximized", "--inprivate")))
+                    .newContext(new Browser.NewContextOptions().setViewportSize(null))
+                    .newPage();
+        } else if (browserName.equalsIgnoreCase("Chrome_Headless")) {
+            browser = getBrowser(playwright, browserName).launch(new BrowserType.LaunchOptions().setHeadless(true).setChannel("chrome"));
+            Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+            int width = (int) screenSize.getWidth();
+            int height = (int) screenSize.getHeight();
+            BrowserContext browserContext = browser.newContext(new Browser.NewContextOptions().setViewportSize(width - 30, height));
+            page = browserContext.newPage();
+        } else if (browserName.equalsIgnoreCase("Firefox_Headless")) {
+            browser = getBrowser(playwright, browserName).launch(new BrowserType.LaunchOptions().setHeadless(true));
+            Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+            int width = (int) screenSize.getWidth();
+            int height = (int) screenSize.getHeight();
+            BrowserContext browserContext = browser.newContext(new Browser.NewContextOptions().setViewportSize(width - 30, height));
+            page = browserContext.newPage();
+        } else if (browserName.equalsIgnoreCase("Edge_Headless")) {
+            browser = getBrowser(playwright, browserName).launch(new BrowserType.LaunchOptions().setHeadless(true).setChannel("msedge"));
+            Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+            int width = (int) screenSize.getWidth();
+            int height = (int) screenSize.getHeight();
+            BrowserContext browserContext = browser.newContext(new Browser.NewContextOptions().setViewportSize(width - 30, height));
+            page = browserContext.newPage();
+        }
+        assert browser != null;
+        FileInputStream fis = null;
+        try {
+            fis = new FileInputStream(executionDataSheetPathAndName);
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+        XSSFWorkbook wb = null;
+        try {
+            wb = new XSSFWorkbook(fis);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        XSSFSheet xs = wb.getSheet(ExecutionScriptName);
+        int lastRowNumber = xs.getLastRowNum();
+        HashMap<String, String> executionPerameters = new HashMap<>();
+        for (int rowCount = 1; rowCount <= lastRowNumber; rowCount++) {
+            Row rowForColumnHeaders = xs.getRow(0);
+            Row rowForValues = xs.getRow(rowCount);
+            for (int columnCount = 0; columnCount < rowForColumnHeaders.getLastCellNum(); columnCount++) {
+                Cell cellHeaderName = rowForColumnHeaders.getCell(columnCount);
+                String strCellHeaderValue = cellHeaderName.toString();
+                Cell cellValue = rowForValues.getCell(columnCount);
+                String formattedValue;
+                switch (cellValue.getCellType()) {
+                    case STRING:
+                        formattedValue = cellValue.getStringCellValue();
+                        executionPerameters.put(strCellHeaderValue.toUpperCase(), formattedValue);
+                        break;
+                    case NUMERIC:
+                        formattedValue = String.valueOf((long) cellValue.getNumericCellValue());
+                        executionPerameters.put(strCellHeaderValue.toUpperCase(), formattedValue);
+                        break;
+                    case FORMULA:
+                        formattedValue = evaluateFormulaCell(cellValue);
+                        executionPerameters.put(strCellHeaderValue.toUpperCase(), formattedValue);
+                        break;
+                    default:
+                        executionPerameters.put(strCellHeaderValue.toUpperCase(), "");
+                }
             }
-            assert browser != null;
-            FileInputStream fis = null;
+            String methodName = executionPerameters.get("CONTROL_ACTION");
+            String className = "Framework_Methods." + executionPerameters.get("CONTROL_TYPE");
+            Class<?> c = null;
             try {
-                fis = new FileInputStream(executionDataSheetPathAndName);
-            } catch (FileNotFoundException e) {
+                c = Class.forName(className);
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
                 throw new RuntimeException(e);
             }
-            XSSFWorkbook wb = null;
+            Class[] argTypes = new Class[]{int.class, Page.class, HashMap.class, String.class};
+            Method main;
             try {
-                wb = new XSSFWorkbook(fis);
-            } catch (IOException e) {
-                throw new RuntimeException(e);
+                main = c.getDeclaredMethod(methodName, argTypes);
+            } catch (NoSuchMethodException e) {
+                break;
             }
-            XSSFSheet xs = wb.getSheet(ExecutionScriptName);
-            int lastRowNumber = xs.getLastRowNum();
-            HashMap<String, String> executionPerameters = new HashMap<>();
-            for (int rowCount = 1; rowCount <= lastRowNumber; rowCount++) {
-                Row rowForColumnHeaders = xs.getRow(0);
-                Row rowForValues = xs.getRow(rowCount);
-                for (int columnCount = 0; columnCount < rowForColumnHeaders.getLastCellNum(); columnCount++) {
-                    Cell cellHeaderName = rowForColumnHeaders.getCell(columnCount);
-                    String strCellHeaderValue = cellHeaderName.toString();
-                    Cell cellValue = rowForValues.getCell(columnCount);
-                    String formattedValue;
-                    switch (cellValue.getCellType()) {
-                        case STRING:
-                            formattedValue = cellValue.getStringCellValue();
-                            executionPerameters.put(strCellHeaderValue.toUpperCase(), formattedValue);
-                            break;
-                        case NUMERIC:
-                            formattedValue = String.valueOf((long) cellValue.getNumericCellValue());
-                            executionPerameters.put(strCellHeaderValue.toUpperCase(), formattedValue);
-                            break;
-                        case FORMULA:
-                            formattedValue = evaluateFormulaCell(cellValue);
-                            executionPerameters.put(strCellHeaderValue.toUpperCase(), formattedValue);
-                            break;
-                        default:
-                            executionPerameters.put(strCellHeaderValue.toUpperCase(), "");
-                    }
-                }
-                String methodName = executionPerameters.get("CONTROL_ACTION");
-                String className = "Framework_Methods.Web_Control_Methods";
-
-                Class<?> c = null;
-                try {
-                    c = Class.forName(className);
-                } catch (ClassNotFoundException e) {
-                    e.printStackTrace();
-                    throw new RuntimeException(e);
-                }
-                Class[] argTypes = new Class[]{int.class, Page.class, HashMap.class, String.class};
-                Method main;
-                try {
-                    main = c.getDeclaredMethod(methodName, argTypes);
-                } catch (NoSuchMethodException e) {
+            try {
+                strMethodsReturnStatus = (boolean) main.invoke(methodName, rowCount, page, executionPerameters, excelReportFileName);
+                if (strMethodsReturnStatus) {
+                    //writeLogsInfoIntoExcel(excelReportFileName, "Logs_Info", String.valueOf(Thread.currentThread().getId()), "Info", "Method returned status: " + strMethodsReturnStatus);
+                } else {
+                    //writeLogsInfoIntoExcel(excelReportFileName, "Logs_Info", String.valueOf(Thread.currentThread().getId()), "Info", "Method returned status:===================================== " + methodName + "   " + strMethodsReturnStatus);
                     break;
                 }
-                try {
-                    strMethodsReturnStatus = (boolean) main.invoke(methodName, rowCount, page, executionPerameters, excelReportFileName);
-                    if (strMethodsReturnStatus) {
-                        writeLogsInfoIntoExcel(excelReportFileName, "Logs_Info", String.valueOf(Thread.currentThread().getId()), "Info", "Method returned status: " + methodName + "   " + strMethodsReturnStatus);
-                    } else {
-                        writeLogsInfoIntoExcel(excelReportFileName, "Logs_Info", String.valueOf(Thread.currentThread().getId()), "Info", "Method returned status:===================================== " + methodName + "   " + strMethodsReturnStatus);
-                        break;
-                    }
-                } catch (Exception e) {
-                    try {
-                        System.out.println(e);
-                        writeLogsInfoIntoExcel(excelReportFileName, "Logs_Info", String.valueOf(Thread.currentThread().getId()), "Error", "Method returned status:===================================== " + methodName + "   " + strMethodsReturnStatus);
-                    } catch (IOException ex) {
-                        throw new RuntimeException(ex);
-                    }
-                }
-            }
-            assert page != null;
-            page.close();
-            playwright.close();
-            //String executionEndTime = new SimpleDateFormat("HH:mm:ss").format(new Date());
-            String executionEndTime = getCurrentTime();
-            String diff = null;
-            try {
-                diff = executionTimeDiffCalculation(executionStartTime, executionEndTime);
-            } catch (IOException | NoSuchMethodException | NoSuchFieldException | IllegalAccessException |
-                     ClassNotFoundException | InstantiationException | ParseException e) {
-                throw new RuntimeException(e);
-            }
-            String strExecutionStatus = null;
-            if (strMethodsReturnStatus) {
-                strExecutionStatus = "PASSED";
-            } else {
-                strExecutionStatus = "FAILED";
-            }
-            String[] arrSummaryInfo = null;
-            arrSummaryInfo = new String[]{String.valueOf(threadId), ExecutionScriptName, ExecutionScriptDescription,browserName, executionStartTime, executionEndTime, diff, strExecutionStatus};
-            try {
-                writeSummaryInfoIntoExcel(excelReportFileName, "Summary_Info", arrSummaryInfo);
             } catch (Exception e) {
-                try {
-                    writeLogsInfoIntoExcel(excelReportFileName, "Logs_Info", String.valueOf(Thread.currentThread().getId()), "Error", e.toString());
-                } catch (IOException ex) {
-                    throw new RuntimeException(ex);
-                }
-                try {
-                    writeLogsInfoIntoExcel(excelReportFileName, "Logs_Info", String.valueOf(Thread.currentThread().getId()), "Error", Arrays.toString(e.getStackTrace()));
-                } catch (IOException ex) {
-                    throw new RuntimeException(ex);
-                }
+                System.out.println(e);
             }
-            latch.countDown();
+        }
+        assert page != null;
+        page.close();
+        playwright.close();
+        //String executionEndTime = new SimpleDateFormat("HH:mm:ss").format(new Date());
+        String executionEndTime = getCurrentTime();
+        String diff = null;
+        try {
+            diff = executionTimeDiffCalculation(executionStartTime, executionEndTime);
+        } catch (IOException | NoSuchMethodException | NoSuchFieldException | IllegalAccessException |
+                 ClassNotFoundException | InstantiationException | ParseException e) {
+            throw new RuntimeException(e);
+        }
+        String strExecutionStatus = null;
+        if (strMethodsReturnStatus) {
+            strExecutionStatus = "PASSED";
+        } else {
+            strExecutionStatus = "FAILED";
+        }
+        String[] arrSummaryInfo = null;
+        arrSummaryInfo = new String[]{String.valueOf(threadId), ExecutionScriptName, ExecutionScriptDescription, browserName, executionStartTime, executionEndTime, diff, strExecutionStatus};
+        try {
+            writeSummaryInfoIntoExcel(excelReportFileName, "Summary_Info", arrSummaryInfo);
+        } catch (Exception e) {
+            try {
+                writeLogsInfoIntoExcel(excelReportFileName, "Logs_Info", String.valueOf(Thread.currentThread().getId()), "Error", e.toString());
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
+            }
+            try {
+                writeLogsInfoIntoExcel(excelReportFileName, "Logs_Info", String.valueOf(Thread.currentThread().getId()), "Error", Arrays.toString(e.getStackTrace()));
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
+            }
+        }
+        latch.countDown();
     }
 
 
@@ -255,7 +249,7 @@ public class Framework_Main extends Thread {
                                 String[] browserArray = executionPerameters.get("BROWSERS_REQUIRED_FOR_EXECUTION").toUpperCase().split(",");
                                 latch = new CountDownLatch(browserArray.length);
                                 ExecutionScriptName = executionPerameters.get("WORKFLOW_CODE").toUpperCase();
-                                ExecutionScriptDescription=executionPerameters.get("WORKFLOW_DESCRIPTION");
+                                ExecutionScriptDescription = executionPerameters.get("WORKFLOW_DESCRIPTION");
                                 for (String s : browserArray) {
                                     Framework_Main temp = new Framework_Main(s.trim());
                                     temp.setDaemon(false);
@@ -264,14 +258,14 @@ public class Framework_Main extends Thread {
                             } else if ((executionPerameters.get("BROWSERS_REQUIRED_FOR_EXECUTION") == null) || (Objects.equals(executionPerameters.get("BROWSERS_REQUIRED_FOR_EXECUTION"), ""))) {
                                 latch = new CountDownLatch(1);
                                 ExecutionScriptName = executionPerameters.get("WORKFLOW_CODE").toUpperCase();
-                                ExecutionScriptDescription=executionPerameters.get("WORKFLOW_DESCRIPTION");
+                                ExecutionScriptDescription = executionPerameters.get("WORKFLOW_DESCRIPTION");
                                 Framework_Main temp = new Framework_Main("Edge");
                                 temp.setDaemon(false);
                                 temp.start();
                             } else {
                                 latch = new CountDownLatch(1);
                                 ExecutionScriptName = executionPerameters.get("WORKFLOW_CODE").toUpperCase();
-                                ExecutionScriptDescription=executionPerameters.get("WORKFLOW_DESCRIPTION");
+                                ExecutionScriptDescription = executionPerameters.get("WORKFLOW_DESCRIPTION");
                                 Framework_Main temp = new Framework_Main(executionPerameters.get("BROWSERS_REQUIRED_FOR_EXECUTION").toUpperCase().trim());
                                 temp.setDaemon(false);
                                 temp.start();

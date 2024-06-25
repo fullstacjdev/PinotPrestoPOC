@@ -55,7 +55,7 @@ public class Web_Control_Methods {
             writeLogsInfoIntoExcel(reportLogFileName, "Logs_Info", String.valueOf(Thread.currentThread().getId()), "Error", e.toString());
             writeLogsInfoIntoExcel(reportLogFileName, "Logs_Info", String.valueOf(Thread.currentThread().getId()), "Error", Arrays.toString(e.getStackTrace()));
         } finally {
-            writeLogsAndTCsInfoIntoReportFile(page, reportLogFileName, map, methodStatus);
+            writeTCsInfoIntoExcel(page, reportLogFileName, map, methodStatus);
         }
         return methodStatus;
     }
@@ -77,7 +77,7 @@ public class Web_Control_Methods {
             writeLogsInfoIntoExcel(reportLogFileName, "Logs_Info", String.valueOf(Thread.currentThread().getId()), "Error", e.toString());
             writeLogsInfoIntoExcel(reportLogFileName, "Logs_Info", String.valueOf(Thread.currentThread().getId()), "Error", Arrays.toString(e.getStackTrace()));
         } finally {
-            writeLogsAndTCsInfoIntoReportFile(page, reportLogFileName, map, methodStatus);
+            writeTCsInfoIntoExcel(page, reportLogFileName, map, methodStatus);
         }
         return methodStatus;
     }
@@ -98,7 +98,7 @@ public class Web_Control_Methods {
             writeLogsInfoIntoExcel(reportLogFileName, "Logs_Info", String.valueOf(Thread.currentThread().getId()), "Error", e.toString());
             writeLogsInfoIntoExcel(reportLogFileName, "Logs_Info", String.valueOf(Thread.currentThread().getId()), "Error", Arrays.toString(e.getStackTrace()));
         } finally {
-            writeLogsAndTCsInfoIntoReportFile(page, reportLogFileName, map, methodStatus);
+            writeTCsInfoIntoExcel(page, reportLogFileName, map, methodStatus);
         }
         return methodStatus;
     }
@@ -118,7 +118,7 @@ public class Web_Control_Methods {
             writeLogsInfoIntoExcel(reportLogFileName, "Logs_Info", String.valueOf(Thread.currentThread().getId()), "Error", e.toString());
             writeLogsInfoIntoExcel(reportLogFileName, "Logs_Info", String.valueOf(Thread.currentThread().getId()), "Error", Arrays.toString(e.getStackTrace()));
         } finally {
-            writeLogsAndTCsInfoIntoReportFile(page, reportLogFileName, map, methodStatus);
+            writeTCsInfoIntoExcel(page, reportLogFileName, map, methodStatus);
         }
         return methodStatus;
     }
@@ -139,7 +139,7 @@ public class Web_Control_Methods {
             writeLogsInfoIntoExcel(reportLogFileName, "Logs_Info", String.valueOf(Thread.currentThread().getId()), "Error", e.toString());
             writeLogsInfoIntoExcel(reportLogFileName, "Logs_Info", String.valueOf(Thread.currentThread().getId()), "Error", Arrays.toString(e.getStackTrace()));
         } finally {
-            writeLogsAndTCsInfoIntoReportFile(page, reportLogFileName, map, methodStatus);
+            writeTCsInfoIntoExcel(page, reportLogFileName, map, methodStatus);
         }
         return methodStatus;
     }
@@ -160,7 +160,7 @@ public class Web_Control_Methods {
             writeLogsInfoIntoExcel(reportLogFileName, "Logs_Info", String.valueOf(Thread.currentThread().getId()), "Error", e.toString());
             writeLogsInfoIntoExcel(reportLogFileName, "Logs_Info", String.valueOf(Thread.currentThread().getId()), "Error", Arrays.toString(e.getStackTrace()));
         } finally {
-            writeLogsAndTCsInfoIntoReportFile(page, reportLogFileName, map, methodStatus);
+            writeTCsInfoIntoExcel(page, reportLogFileName, map, methodStatus);
         }
         return methodStatus;
     }
@@ -184,7 +184,7 @@ public class Web_Control_Methods {
             writeLogsInfoIntoExcel(reportLogFileName, "Logs_Info", String.valueOf(Thread.currentThread().getId()), "Error", e.toString());
             writeLogsInfoIntoExcel(reportLogFileName, "Logs_Info", String.valueOf(Thread.currentThread().getId()), "Error", Arrays.toString(e.getStackTrace()));
         } finally {
-            writeLogsAndTCsInfoIntoReportFile(page, reportLogFileName, map, methodStatus);
+            writeTCsInfoIntoExcel(page, reportLogFileName, map, methodStatus);
         }
         return methodStatus;
     }
@@ -198,7 +198,7 @@ public class Web_Control_Methods {
             page.focus(map.get("ATTRIBUTE_VALUE").toString());
             if (elementTextBox.isVisible() && elementTextBox.isEnabled()) {
                 elementTextBox.click();
-                String userInput = JOptionPane.showInputDialog(null, "Enter value for " + map.get("Action_Flow").toString() + " : ");
+                String userInput = JOptionPane.showInputDialog(null, "Enter value for " + map.get("VALIDATION_TYPE").toString() + " : ");
                 elementTextBox.fill(userInput);
                 methodStatus = true;
             }
@@ -206,7 +206,7 @@ public class Web_Control_Methods {
             writeLogsInfoIntoExcel(reportLogFileName, "Logs_Info", String.valueOf(Thread.currentThread().getId()), "Error", e.toString());
             writeLogsInfoIntoExcel(reportLogFileName, "Logs_Info", String.valueOf(Thread.currentThread().getId()), "Error", Arrays.toString(e.getStackTrace()));
         } finally {
-            writeLogsAndTCsInfoIntoReportFile(page, reportLogFileName, map, methodStatus);
+            writeTCsInfoIntoExcel(page, reportLogFileName, map, methodStatus);
         }
         return methodStatus;
     }
@@ -221,7 +221,7 @@ public class Web_Control_Methods {
             if (elementTextBox.isVisible() && elementTextBox.isEnabled()) {
                 elementTextBox.click();
                 JPasswordField passwordField = new JPasswordField();
-                int option = JOptionPane.showConfirmDialog(null, passwordField, "Enter value for " + map.get("Action_Flow").toString(), JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+                int option = JOptionPane.showConfirmDialog(null, passwordField, "Enter value for " + map.get("VALIDATION_TYPE").toString(), JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
                 if (option == JOptionPane.OK_OPTION) {
                     char[] password = passwordField.getPassword();
                     String userInput = new String(password);
@@ -233,7 +233,7 @@ public class Web_Control_Methods {
             writeLogsInfoIntoExcel(reportLogFileName, "Logs_Info", String.valueOf(Thread.currentThread().getId()), "Error", e.toString());
             writeLogsInfoIntoExcel(reportLogFileName, "Logs_Info", String.valueOf(Thread.currentThread().getId()), "Error", Arrays.toString(e.getStackTrace()));
         } finally {
-            writeLogsAndTCsInfoIntoReportFile(page, reportLogFileName, map, methodStatus);
+            writeTCsInfoIntoExcel(page, reportLogFileName, map, methodStatus);
         }
         return methodStatus;
     }
@@ -259,7 +259,7 @@ public class Web_Control_Methods {
             writeLogsInfoIntoExcel(reportLogFileName, "Logs_Info", String.valueOf(Thread.currentThread().getId()), "Error", e.toString());
             writeLogsInfoIntoExcel(reportLogFileName, "Logs_Info", String.valueOf(Thread.currentThread().getId()), "Error", Arrays.toString(e.getStackTrace()));
         } finally {
-            writeLogsAndTCsInfoIntoReportFile(page, reportLogFileName, map, methodStatus);
+            writeTCsInfoIntoExcel(page, reportLogFileName, map, methodStatus);
         }
         return methodStatus;
     }
@@ -292,7 +292,7 @@ public class Web_Control_Methods {
             writeLogsInfoIntoExcel(reportLogFileName, "Logs_Info", String.valueOf(Thread.currentThread().getId()), "Error", e.toString());
             writeLogsInfoIntoExcel(reportLogFileName, "Logs_Info", String.valueOf(Thread.currentThread().getId()), "Error", Arrays.toString(e.getStackTrace()));
         } finally {
-            writeLogsAndTCsInfoIntoReportFile(page, reportLogFileName, map, methodStatus);
+            writeTCsInfoIntoExcel(page, reportLogFileName, map, methodStatus);
         }
         return methodStatus;
     }
@@ -328,7 +328,7 @@ public class Web_Control_Methods {
             writeLogsInfoIntoExcel(reportLogFileName, "Logs_Info", String.valueOf(Thread.currentThread().getId()), "Error", e.toString());
             writeLogsInfoIntoExcel(reportLogFileName, "Logs_Info", String.valueOf(Thread.currentThread().getId()), "Error", Arrays.toString(e.getStackTrace()));
         } finally {
-            writeLogsAndTCsInfoIntoReportFile(page, reportLogFileName, map, methodStatus);
+            writeTCsInfoIntoExcel(page, reportLogFileName, map, methodStatus);
         }
         return methodStatus;
     }
@@ -364,7 +364,7 @@ public class Web_Control_Methods {
             writeLogsInfoIntoExcel(reportLogFileName, "Logs_Info", String.valueOf(Thread.currentThread().getId()), "Error", e.toString());
             writeLogsInfoIntoExcel(reportLogFileName, "Logs_Info", String.valueOf(Thread.currentThread().getId()), "Error", Arrays.toString(e.getStackTrace()));
         } finally {
-            writeLogsAndTCsInfoIntoReportFile(page, reportLogFileName, map, methodStatus);
+            writeTCsInfoIntoExcel(page, reportLogFileName, map, methodStatus);
         }
         return methodStatus;
     }
@@ -403,7 +403,7 @@ public class Web_Control_Methods {
             writeLogsInfoIntoExcel(reportLogFileName, "Logs_Info", String.valueOf(Thread.currentThread().getId()), "Error", e.toString());
             writeLogsInfoIntoExcel(reportLogFileName, "Logs_Info", String.valueOf(Thread.currentThread().getId()), "Error", Arrays.toString(e.getStackTrace()));
         } finally {
-            writeLogsAndTCsInfoIntoReportFile(page, reportLogFileName, map, methodStatus);
+            writeTCsInfoIntoExcel(page, reportLogFileName, map, methodStatus);
         }
         return methodStatus;
     }
@@ -433,7 +433,7 @@ public class Web_Control_Methods {
             writeLogsInfoIntoExcel(reportLogFileName, "Logs_Info", String.valueOf(Thread.currentThread().getId()), "Error", e.toString());
             writeLogsInfoIntoExcel(reportLogFileName, "Logs_Info", String.valueOf(Thread.currentThread().getId()), "Error", Arrays.toString(e.getStackTrace()));
         } finally {
-            writeLogsAndTCsInfoIntoReportFile(page, reportLogFileName, map, methodStatus);
+            writeTCsInfoIntoExcel(page, reportLogFileName, map, methodStatus);
         }
         return methodStatus;
     }
@@ -458,7 +458,7 @@ public class Web_Control_Methods {
             writeLogsInfoIntoExcel(reportLogFileName, "Logs_Info", String.valueOf(Thread.currentThread().getId()), "Error", e.toString());
             writeLogsInfoIntoExcel(reportLogFileName, "Logs_Info", String.valueOf(Thread.currentThread().getId()), "Error", Arrays.toString(e.getStackTrace()));
         } finally {
-            writeLogsAndTCsInfoIntoReportFile(page, reportLogFileName, map, methodStatus);
+            writeTCsInfoIntoExcel(page, reportLogFileName, map, methodStatus);
         }
         return methodStatus;
     }
@@ -492,7 +492,7 @@ public class Web_Control_Methods {
             writeLogsInfoIntoExcel(reportLogFileName, "Logs_Info", String.valueOf(Thread.currentThread().getId()), "Error", e.toString());
             writeLogsInfoIntoExcel(reportLogFileName, "Logs_Info", String.valueOf(Thread.currentThread().getId()), "Error", Arrays.toString(e.getStackTrace()));
         } finally {
-            writeLogsAndTCsInfoIntoReportFile(page, reportLogFileName, map, methodStatus);
+            writeTCsInfoIntoExcel(page, reportLogFileName, map, methodStatus);
         }
         return methodStatus;
     }
@@ -517,7 +517,7 @@ public class Web_Control_Methods {
             writeLogsInfoIntoExcel(reportLogFileName, "Logs_Info", String.valueOf(Thread.currentThread().getId()), "Error", e.toString());
             writeLogsInfoIntoExcel(reportLogFileName, "Logs_Info", String.valueOf(Thread.currentThread().getId()), "Error", Arrays.toString(e.getStackTrace()));
         } finally {
-            writeLogsAndTCsInfoIntoReportFile(page, reportLogFileName, map, methodStatus);
+            writeTCsInfoIntoExcel(page, reportLogFileName, map, methodStatus);
         }
         return methodStatus;
     }
@@ -535,7 +535,7 @@ public class Web_Control_Methods {
             writeLogsInfoIntoExcel(reportLogFileName, "Logs_Info", String.valueOf(Thread.currentThread().getId()), "Error", e.toString());
             writeLogsInfoIntoExcel(reportLogFileName, "Logs_Info", String.valueOf(Thread.currentThread().getId()), "Error", Arrays.toString(e.getStackTrace()));
         } finally {
-            writeLogsAndTCsInfoIntoReportFile(page, reportLogFileName, map, methodStatus);
+            writeTCsInfoIntoExcel(page, reportLogFileName, map, methodStatus);
         }
         return methodStatus;
     }
@@ -573,7 +573,7 @@ public class Web_Control_Methods {
             writeLogsInfoIntoExcel(reportLogFileName, "Logs_Info", String.valueOf(Thread.currentThread().getId()), "Error", e.toString());
             writeLogsInfoIntoExcel(reportLogFileName, "Logs_Info", String.valueOf(Thread.currentThread().getId()), "Error", Arrays.toString(e.getStackTrace()));
         } finally {
-            writeLogsAndTCsInfoIntoReportFile(page, reportLogFileName, map, methodStatus);
+            writeTCsInfoIntoExcel(page, reportLogFileName, map, methodStatus);
         }
         return methodStatus;
     }
@@ -592,7 +592,7 @@ public class Web_Control_Methods {
             writeLogsInfoIntoExcel(reportLogFileName, "Logs_Info", String.valueOf(Thread.currentThread().getId()), "Error", e.toString());
             writeLogsInfoIntoExcel(reportLogFileName, "Logs_Info", String.valueOf(Thread.currentThread().getId()), "Error", Arrays.toString(e.getStackTrace()));
         } finally {
-            writeLogsAndTCsInfoIntoReportFile(page, reportLogFileName, map, methodStatus);
+            writeTCsInfoIntoExcel(page, reportLogFileName, map, methodStatus);
         }
         return methodStatus;
     }
@@ -623,7 +623,7 @@ public class Web_Control_Methods {
             writeLogsInfoIntoExcel(reportLogFileName, "Logs_Info", String.valueOf(Thread.currentThread().getId()), "Error", e.toString());
             writeLogsInfoIntoExcel(reportLogFileName, "Logs_Info", String.valueOf(Thread.currentThread().getId()), "Error", Arrays.toString(e.getStackTrace()));
         } finally {
-            writeLogsAndTCsInfoIntoReportFile(page, reportLogFileName, map, methodStatus);
+            writeTCsInfoIntoExcel(page, reportLogFileName, map, methodStatus);
         }
         return methodStatus;
     }
@@ -658,7 +658,7 @@ public class Web_Control_Methods {
             writeLogsInfoIntoExcel(reportLogFileName, "Logs_Info", String.valueOf(Thread.currentThread().getId()), "Error", e.toString());
             writeLogsInfoIntoExcel(reportLogFileName, "Logs_Info", String.valueOf(Thread.currentThread().getId()), "Error", Arrays.toString(e.getStackTrace()));
         } finally {
-            writeLogsAndTCsInfoIntoReportFile(page, reportLogFileName, map, methodStatus);
+            writeTCsInfoIntoExcel(page, reportLogFileName, map, methodStatus);
         }
         return methodStatus;
     }
@@ -675,7 +675,7 @@ public class Web_Control_Methods {
             writeLogsInfoIntoExcel(reportLogFileName, "Logs_Info", String.valueOf(Thread.currentThread().getId()), "Error", e.toString());
             writeLogsInfoIntoExcel(reportLogFileName, "Logs_Info", String.valueOf(Thread.currentThread().getId()), "Error", Arrays.toString(e.getStackTrace()));
         } finally {
-            writeLogsAndTCsInfoIntoReportFile(page, reportLogFileName, map, methodStatus);
+            writeTCsInfoIntoExcel(page, reportLogFileName, map, methodStatus);
         }
         return methodStatus;
     }
@@ -703,7 +703,7 @@ public class Web_Control_Methods {
             writeLogsInfoIntoExcel(reportLogFileName, "Logs_Info", String.valueOf(Thread.currentThread().getId()), "Error", e.toString());
             writeLogsInfoIntoExcel(reportLogFileName, "Logs_Info", String.valueOf(Thread.currentThread().getId()), "Error", Arrays.toString(e.getStackTrace()));
         } finally {
-            writeLogsAndTCsInfoIntoReportFile(page, reportLogFileName, map, methodStatus);
+            writeTCsInfoIntoExcel(page, reportLogFileName, map, methodStatus);
         }
         return methodStatus;
     }
@@ -731,7 +731,7 @@ public class Web_Control_Methods {
             writeLogsInfoIntoExcel(reportLogFileName, "Logs_Info", String.valueOf(Thread.currentThread().getId()), "Error", e.toString());
             writeLogsInfoIntoExcel(reportLogFileName, "Logs_Info", String.valueOf(Thread.currentThread().getId()), "Error", Arrays.toString(e.getStackTrace()));
         } finally {
-            writeLogsAndTCsInfoIntoReportFile(page, reportLogFileName, map, methodStatus);
+            writeTCsInfoIntoExcel(page, reportLogFileName, map, methodStatus);
         }
         return methodStatus;
     }
@@ -758,7 +758,7 @@ public class Web_Control_Methods {
             writeLogsInfoIntoExcel(reportLogFileName, "Logs_Info", String.valueOf(Thread.currentThread().getId()), "Error", e.toString());
             writeLogsInfoIntoExcel(reportLogFileName, "Logs_Info", String.valueOf(Thread.currentThread().getId()), "Error", Arrays.toString(e.getStackTrace()));
         } finally {
-            writeLogsAndTCsInfoIntoReportFile(page, reportLogFileName, map, methodStatus);
+            writeTCsInfoIntoExcel(page, reportLogFileName, map, methodStatus);
         }
         return methodStatus;
     }
@@ -773,7 +773,7 @@ public class Web_Control_Methods {
             writeLogsInfoIntoExcel(reportLogFileName, "Logs_Info", String.valueOf(Thread.currentThread().getId()), "Error", e.toString());
             writeLogsInfoIntoExcel(reportLogFileName, "Logs_Info", String.valueOf(Thread.currentThread().getId()), "Error", Arrays.toString(e.getStackTrace()));
         } finally {
-            writeLogsAndTCsInfoIntoReportFile(page, reportLogFileName, map, methodStatus);
+            writeTCsInfoIntoExcel(page, reportLogFileName, map, methodStatus);
         }
         return methodStatus;
     }
@@ -808,7 +808,7 @@ public class Web_Control_Methods {
             writeLogsInfoIntoExcel(reportLogFileName, "Logs_Info", String.valueOf(Thread.currentThread().getId()), "Error", e.toString());
             writeLogsInfoIntoExcel(reportLogFileName, "Logs_Info", String.valueOf(Thread.currentThread().getId()), "Error", Arrays.toString(e.getStackTrace()));
         } finally {
-            writeLogsAndTCsInfoIntoReportFile(page, reportLogFileName, map, methodStatus);
+            writeTCsInfoIntoExcel(page, reportLogFileName, map, methodStatus);
         }
         return methodStatus;
     }
@@ -844,7 +844,7 @@ public class Web_Control_Methods {
             writeLogsInfoIntoExcel(reportLogFileName, "Logs_Info", String.valueOf(Thread.currentThread().getId()), "Error", e.toString());
             writeLogsInfoIntoExcel(reportLogFileName, "Logs_Info", String.valueOf(Thread.currentThread().getId()), "Error", Arrays.toString(e.getStackTrace()));
         } finally {
-            writeLogsAndTCsInfoIntoReportFileWithElementMarking(page, reportLogFileName, map, methodStatus);
+            writeTCsInfoIntoExcelWithElementMarking(page, reportLogFileName, map, methodStatus);
         }
         return methodStatus;
     }
@@ -878,7 +878,7 @@ public class Web_Control_Methods {
             writeLogsInfoIntoExcel(reportLogFileName, "Logs_Info", String.valueOf(Thread.currentThread().getId()), "Error", e.toString());
             writeLogsInfoIntoExcel(reportLogFileName, "Logs_Info", String.valueOf(Thread.currentThread().getId()), "Error", Arrays.toString(e.getStackTrace()));
         } finally {
-            writeLogsAndTCsInfoIntoReportFileWithElementMarking(page, reportLogFileName, map, methodStatus);
+            writeTCsInfoIntoExcelWithElementMarking(page, reportLogFileName, map, methodStatus);
         }
         return methodStatus;
     }
@@ -901,7 +901,7 @@ public class Web_Control_Methods {
             writeLogsInfoIntoExcel(reportLogFileName, "Logs_Info", String.valueOf(Thread.currentThread().getId()), "Error", e.toString());
             writeLogsInfoIntoExcel(reportLogFileName, "Logs_Info", String.valueOf(Thread.currentThread().getId()), "Error", Arrays.toString(e.getStackTrace()));
         } finally {
-            writeLogsAndTCsInfoIntoReportFileWithElementMarking(page, reportLogFileName, map, methodStatus);
+            writeTCsInfoIntoExcelWithElementMarking(page, reportLogFileName, map, methodStatus);
         }
         return methodStatus;
     }
@@ -924,7 +924,7 @@ public class Web_Control_Methods {
             writeLogsInfoIntoExcel(reportLogFileName, "Logs_Info", String.valueOf(Thread.currentThread().getId()), "Error", e.toString());
             writeLogsInfoIntoExcel(reportLogFileName, "Logs_Info", String.valueOf(Thread.currentThread().getId()), "Error", Arrays.toString(e.getStackTrace()));
         } finally {
-            writeLogsAndTCsInfoIntoReportFile(page, reportLogFileName, map, methodStatus);
+            writeTCsInfoIntoExcelWithElementMarking(page, reportLogFileName, map, methodStatus);
         }
         return methodStatus;
     }
@@ -947,7 +947,7 @@ public class Web_Control_Methods {
             writeLogsInfoIntoExcel(reportLogFileName, "Logs_Info", String.valueOf(Thread.currentThread().getId()), "Error", e.toString());
             writeLogsInfoIntoExcel(reportLogFileName, "Logs_Info", String.valueOf(Thread.currentThread().getId()), "Error", Arrays.toString(e.getStackTrace()));
         } finally {
-            writeLogsAndTCsInfoIntoReportFile(page, reportLogFileName, map, methodStatus);
+            writeTCsInfoIntoExcelWithElementMarking(page, reportLogFileName, map, methodStatus);
         }
         return methodStatus;
     }
@@ -970,7 +970,7 @@ public class Web_Control_Methods {
             writeLogsInfoIntoExcel(reportLogFileName, "Logs_Info", String.valueOf(Thread.currentThread().getId()), "Error", e.toString());
             writeLogsInfoIntoExcel(reportLogFileName, "Logs_Info", String.valueOf(Thread.currentThread().getId()), "Error", Arrays.toString(e.getStackTrace()));
         } finally {
-            writeLogsAndTCsInfoIntoReportFile(page, reportLogFileName, map, methodStatus);
+            writeTCsInfoIntoExcelWithElementMarking(page, reportLogFileName, map, methodStatus);
         }
         return methodStatus;
     }
@@ -994,7 +994,7 @@ public class Web_Control_Methods {
             writeLogsInfoIntoExcel(reportLogFileName, "Logs_Info", String.valueOf(Thread.currentThread().getId()), "Error", e.toString());
             writeLogsInfoIntoExcel(reportLogFileName, "Logs_Info", String.valueOf(Thread.currentThread().getId()), "Error", Arrays.toString(e.getStackTrace()));
         } finally {
-            writeLogsAndTCsInfoIntoReportFileWithElementMarking(page, reportLogFileName, map, methodStatus);
+            writeTCsInfoIntoExcelWithElementMarking(page, reportLogFileName, map, methodStatus);
         }
         return methodStatus;
     }
@@ -1016,7 +1016,7 @@ public class Web_Control_Methods {
             writeLogsInfoIntoExcel(reportLogFileName, "Logs_Info", String.valueOf(Thread.currentThread().getId()), "Error", e.toString());
             writeLogsInfoIntoExcel(reportLogFileName, "Logs_Info", String.valueOf(Thread.currentThread().getId()), "Error", Arrays.toString(e.getStackTrace()));
         } finally {
-            writeLogsAndTCsInfoIntoReportFileWithElementMarking(page, reportLogFileName, map, methodStatus);
+            writeTCsInfoIntoExcelWithElementMarking(page, reportLogFileName, map, methodStatus);
         }
         return methodStatus;
     }
@@ -1039,7 +1039,7 @@ public class Web_Control_Methods {
             writeLogsInfoIntoExcel(reportLogFileName, "Logs_Info", String.valueOf(Thread.currentThread().getId()), "Error", e.toString());
             writeLogsInfoIntoExcel(reportLogFileName, "Logs_Info", String.valueOf(Thread.currentThread().getId()), "Error", Arrays.toString(e.getStackTrace()));
         } finally {
-            writeLogsAndTCsInfoIntoReportFileWithElementMarking(page, reportLogFileName, map, methodStatus);
+            writeTCsInfoIntoExcelWithElementMarking(page, reportLogFileName, map, methodStatus);
         }
         return methodStatus;
     }
@@ -1061,7 +1061,7 @@ public class Web_Control_Methods {
             writeLogsInfoIntoExcel(reportLogFileName, "Logs_Info", String.valueOf(Thread.currentThread().getId()), "Error", e.toString());
             writeLogsInfoIntoExcel(reportLogFileName, "Logs_Info", String.valueOf(Thread.currentThread().getId()), "Error", Arrays.toString(e.getStackTrace()));
         } finally {
-            writeLogsAndTCsInfoIntoReportFileWithElementMarking(page, reportLogFileName, map, methodStatus);
+            writeTCsInfoIntoExcelWithElementMarking(page, reportLogFileName, map, methodStatus);
         }
         return methodStatus;
     }

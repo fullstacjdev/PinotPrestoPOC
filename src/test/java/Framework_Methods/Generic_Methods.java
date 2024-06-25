@@ -198,19 +198,22 @@ public class Generic_Methods {
                 "\n" +
                 "        .hint::after {\n" +
                 "            content: attr(data-hint);\n" +
-                "            position: absolute;\n" +
-                "            background-color: darkslategray; /* Blue background */\n" +
-                "            color: #fff; /* White text color */\n" +
-                "            padding: 9px; /* Padding around text */\n" +
-                "            border-radius: 9px; /* Rounded corners */\n" +
-                "            bottom: 120%; /* Position above the element */\n" +
-                "            left: 80%; /* Center horizontally */\n" +
-                "            transform: translateX(-50%); /* Center horizontally */\n" +
-                "            opacity: 0; /* Initially hidden */\n" +
-                "            /*transition: opacity 0.75s ease-in-out; /* Smooth opacity transition */\n" +
-                "            white-space: nowrap; /* Prevent line breaks */\n" +
-                "            font-size: 12px; /* Adjust font size */\n" +
-                "            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Shadow for better visibility */\n" +
+                "            position: fixed;\n" +
+                "            background-color: dimgray;\n" +
+                "            color: #fff;\n" +
+                "            padding: 9px;\n" +
+                "            border-radius: 9px;\n" +
+                "            bottom: 70%;\n" +
+                "            left: 15.5%;\n" +
+                "            transform: translateX(-30%);\n" +
+                "            opacity: 0;\n" +
+                "            white-space: initial; /* Allow text to wrap */\n" +
+                "            width: 1500px; /* Adjust width based on content */\n" +
+                "            max-width: 680px; /* Limit maximum width */\n" +
+                "            font-size: 10px;\n" +
+                "            line-height: 2; /* Adjust line height for readability */\n" +
+                "            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);\n" +
+                "            z-index: 5; /* Ensure tooltip is above other elements */\n" +
                 "        }\n" +
                 "\n" +
                 "        .hint:hover::after {\n" +

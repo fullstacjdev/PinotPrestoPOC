@@ -37,7 +37,6 @@ public class Web_Control_Common_Methods {
     }
 
 
-
     public static boolean waitForPageContentEnabled(Page page) {
         String script = "document.readyState === 'complete' && !document.querySelector('body').hasAttribute('disabled');";
         try {
@@ -67,10 +66,14 @@ public class Web_Control_Common_Methods {
     }
 
     public static void waitForPageLoad(Page page) {
-        Page.WaitForLoadStateOptions options = new Page.WaitForLoadStateOptions().setTimeout(120000);
-        page.waitForLoadState(LoadState.LOAD, options);
-        page.waitForLoadState(LoadState.NETWORKIDLE, options);
-        page.waitForLoadState(LoadState.DOMCONTENTLOADED, options);
+        try {
+            Page.WaitForLoadStateOptions options = new Page.WaitForLoadStateOptions().setTimeout(120000);
+            page.waitForLoadState(LoadState.LOAD, options);
+            page.waitForLoadState(LoadState.NETWORKIDLE, options);
+            page.waitForLoadState(LoadState.DOMCONTENTLOADED, options);
+        } catch (Exception e) {
+            System.out.println(e);
+        }
     }
 
     public static ElementHandle waitForAnElement(Page page, String elementString, int timeoutMillis) {
@@ -86,6 +89,31 @@ public class Web_Control_Common_Methods {
             }
         }
         return null;
+    }
+
+    public static boolean waitForPageLocator(Page page, Locator locator) {
+        boolean locatorInReadyState = false;
+        long startTime = System.currentTimeMillis();
+        while (System.currentTimeMillis() - startTime < 30000) {
+            int elementCount = locator.count();
+            if (elementCount > 0) {
+                try {
+                    if (locator.isVisible()) {
+                        locatorInReadyState = true;
+                        break;
+                    }
+                } catch (PlaywrightException e) {
+                    System.out.println(e);
+                }
+            }
+        }
+        if(locatorInReadyState)
+        {
+            System.out.println("Element 'your_locator' is available.");
+        }else{
+            System.out.println("Element 'your_locator' is not available.");
+        }
+        return locatorInReadyState;
     }
 
 
@@ -127,37 +155,45 @@ public class Web_Control_Common_Methods {
         return ImageFilePathAndName;
     }
 
-    public static void writeLogsAndTCsInfoIntoReportFile(Page page, String reportLogFileName, HashMap map, boolean methodStatus) throws IOException {
+    public static void writeTCsInfoIntoExcel(Page page, String reportLogFileName, HashMap map, boolean methodStatus) throws IOException {
         if (methodStatus) {
-            writeLogsInfoIntoExcel(reportLogFileName, "Logs_Info", String.valueOf(Thread.currentThread().getId()), "Info", "Page has been loaded successfully");
-            if (((!map.get("TEST_CASES").toString().isEmpty()) && (map.get("ACTION_FLOW").toString().equals("Assertion"))) && ((map.get("SHOULD_TAKE_SCREENSHOT").toString().equals("") || map.get("SHOULD_TAKE_SCREENSHOT").toString().equalsIgnoreCase("YES")))) {
+            //writeLogsInfoIntoExcel(reportLogFileName, "Logs_Info", String.valueOf(Thread.currentThread().getId()), "Info", "Page has been loaded successfully");
+            if (((!map.get("TEST_CASES").toString().isEmpty()) && (map.get("VALIDATION_TYPE").toString().contains("Assertion"))) && ((map.get("SHOULD_TAKE_SCREENSHOT").toString().equals("") || map.get("SHOULD_TAKE_SCREENSHOT").toString().equalsIgnoreCase("YES")))) {
                 writeTestCasesInfoIntoExcel(reportLogFileName, "TestCases_Info", String.valueOf(Thread.currentThread().getId()), map.get("TEST_CASES").toString(), ScreenshotToBase64(page), "Pass");
-            } else if (((!map.get("TEST_CASES").toString().isEmpty()) && (map.get("ACTION_FLOW").toString().equals("Assertion"))) && ((map.get("SHOULD_TAKE_SCREENSHOT").toString().equals("") || map.get("SHOULD_TAKE_SCREENSHOT").toString().equalsIgnoreCase("NO")))) {
+            } else if (((!map.get("TEST_CASES").toString().isEmpty()) && (map.get("VALIDATION_TYPE").toString().contains("Assertion"))) && ((map.get("SHOULD_TAKE_SCREENSHOT").toString().equals("") || map.get("SHOULD_TAKE_SCREENSHOT").toString().equalsIgnoreCase("NO")))) {
                 writeTestCasesInfoIntoExcel(reportLogFileName, "TestCases_Info", String.valueOf(Thread.currentThread().getId()), map.get("TEST_CASES").toString(), "", "Pass");
             }
         } else {
-            writeLogsInfoIntoExcel(reportLogFileName, "Logs_Info", String.valueOf(Thread.currentThread().getId()), "Error", "Page is not loaded");
-            if (((!map.get("TEST_CASES").toString().isEmpty()) && (map.get("ACTION_FLOW").toString().equals("Assertion"))) && ((map.get("SHOULD_TAKE_SCREENSHOT").toString().equals("") || map.get("SHOULD_TAKE_SCREENSHOT").toString().equalsIgnoreCase("YES")))) {
+            //writeLogsInfoIntoExcel(reportLogFileName, "Logs_Info", String.valueOf(Thread.currentThread().getId()), "Error", "Page is not loaded");
+            if (((!map.get("TEST_CASES").toString().isEmpty()) && (map.get("VALIDATION_TYPE").toString().contains("Assertion"))) && ((map.get("SHOULD_TAKE_SCREENSHOT").toString().equals("") || map.get("SHOULD_TAKE_SCREENSHOT").toString().equalsIgnoreCase("YES")))) {
                 writeTestCasesInfoIntoExcel(reportLogFileName, "TestCases_Info", String.valueOf(Thread.currentThread().getId()), map.get("TEST_CASES").toString(), ScreenshotToBase64(page), "Fail");
-            } else if (((!map.get("TEST_CASES").toString().isEmpty()) && (map.get("ACTION_FLOW").toString().equals("Assertion"))) && ((map.get("SHOULD_TAKE_SCREENSHOT").toString().equals("") || map.get("SHOULD_TAKE_SCREENSHOT").toString().equalsIgnoreCase("NO")))) {
+            } else if (((!map.get("TEST_CASES").toString().isEmpty()) && (map.get("VALIDATION_TYPE").toString().contains("Assertion"))) && ((map.get("SHOULD_TAKE_SCREENSHOT").toString().equals("") || map.get("SHOULD_TAKE_SCREENSHOT").toString().equalsIgnoreCase("NO")))) {
                 writeTestCasesInfoIntoExcel(reportLogFileName, "TestCases_Info", String.valueOf(Thread.currentThread().getId()), map.get("TEST_CASES").toString(), "", "Fail");
             }
         }
     }
 
-    public static void writeLogsAndTCsInfoIntoReportFileWithElementMarking(Page page, String reportLogFileName, HashMap map, boolean methodStatus) throws IOException {
+    public static void writeTCsInfoIntoExcelWithElementMarking(Page page, String reportLogFileName, HashMap map, boolean methodStatus) throws IOException {
+        String elementLocator = "";
+        if ((map.get("ATTRIBUTE_VALUE").toString()).contains("%s")) {
+            elementLocator = String.format(map.get("ATTRIBUTE_VALUE").toString(), map.get("CONTROL_VALUE").toString());
+
+        } else {
+            elementLocator = map.get("ATTRIBUTE_VALUE").toString();
+        }
+
         if (methodStatus) {
-            writeLogsInfoIntoExcel(reportLogFileName, "Logs_Info", String.valueOf(Thread.currentThread().getId()), "Info", "Page has been loaded successfully");
-            if (((!map.get("TEST_CASES").toString().isEmpty()) && (map.get("ACTION_FLOW").toString().equals("Assertion"))) && ((map.get("SHOULD_TAKE_SCREENSHOT").toString().equals("") || map.get("SHOULD_TAKE_SCREENSHOT").toString().equalsIgnoreCase("YES")))) {
-                writeTestCasesInfoIntoExcel(reportLogFileName, "TestCases_Info", String.valueOf(Thread.currentThread().getId()), map.get("TEST_CASES").toString(), ScreenshotToBase64(page, map.get("ATTRIBUTE_VALUE").toString(), "green"), "Pass");
-            } else if (((!map.get("TEST_CASES").toString().isEmpty()) && (map.get("ACTION_FLOW").toString().equals("Assertion"))) && ((map.get("SHOULD_TAKE_SCREENSHOT").toString().equals("") || map.get("SHOULD_TAKE_SCREENSHOT").toString().equalsIgnoreCase("NO")))) {
+            //writeLogsInfoIntoExcel(reportLogFileName, "Logs_Info", String.valueOf(Thread.currentThread().getId()), "Info", "Page has been loaded successfully");
+            if (((!map.get("TEST_CASES").toString().isEmpty()) && (map.get("VALIDATION_TYPE").toString().contains("Assertion"))) && ((map.get("SHOULD_TAKE_SCREENSHOT").toString().equals("") || map.get("SHOULD_TAKE_SCREENSHOT").toString().equalsIgnoreCase("YES")))) {
+                writeTestCasesInfoIntoExcel(reportLogFileName, "TestCases_Info", String.valueOf(Thread.currentThread().getId()), map.get("TEST_CASES").toString(), ScreenshotToBase64(page, elementLocator, "green"), "Pass");
+            } else if (((!map.get("TEST_CASES").toString().isEmpty()) && (map.get("VALIDATION_TYPE").toString().contains("Assertion"))) && ((map.get("SHOULD_TAKE_SCREENSHOT").toString().equals("") || map.get("SHOULD_TAKE_SCREENSHOT").toString().equalsIgnoreCase("NO")))) {
                 writeTestCasesInfoIntoExcel(reportLogFileName, "TestCases_Info", String.valueOf(Thread.currentThread().getId()), map.get("TEST_CASES").toString(), "", "Pass");
             }
         } else {
-            writeLogsInfoIntoExcel(reportLogFileName, "Logs_Info", String.valueOf(Thread.currentThread().getId()), "Error", "Page is not loaded");
-            if (((!map.get("TEST_CASES").toString().isEmpty()) && (map.get("ACTION_FLOW").toString().equals("Assertion"))) && ((map.get("SHOULD_TAKE_SCREENSHOT").toString().equals("") || map.get("SHOULD_TAKE_SCREENSHOT").toString().equalsIgnoreCase("YES")))) {
-                writeTestCasesInfoIntoExcel(reportLogFileName, "TestCases_Info", String.valueOf(Thread.currentThread().getId()), map.get("TEST_CASES").toString(), ScreenshotToBase64(page, map.get("ATTRIBUTE_VALUE").toString(), "red"), "Fail");
-            } else if (((!map.get("TEST_CASES").toString().isEmpty()) && (map.get("ACTION_FLOW").toString().equals("Assertion"))) && ((map.get("SHOULD_TAKE_SCREENSHOT").toString().equals("") || map.get("SHOULD_TAKE_SCREENSHOT").toString().equalsIgnoreCase("NO")))) {
+            //writeLogsInfoIntoExcel(reportLogFileName, "Logs_Info", String.valueOf(Thread.currentThread().getId()), "Error", "Page is not loaded");
+            if (((!map.get("TEST_CASES").toString().isEmpty()) && (map.get("VALIDATION_TYPE").toString().contains("Assertion"))) && ((map.get("SHOULD_TAKE_SCREENSHOT").toString().equals("") || map.get("SHOULD_TAKE_SCREENSHOT").toString().equalsIgnoreCase("YES")))) {
+                writeTestCasesInfoIntoExcel(reportLogFileName, "TestCases_Info", String.valueOf(Thread.currentThread().getId()), map.get("TEST_CASES").toString(), ScreenshotToBase64(page, elementLocator, "red"), "Fail");
+            } else if (((!map.get("TEST_CASES").toString().isEmpty()) && (map.get("VALIDATION_TYPE").toString().contains("Assertion"))) && ((map.get("SHOULD_TAKE_SCREENSHOT").toString().equals("") || map.get("SHOULD_TAKE_SCREENSHOT").toString().equalsIgnoreCase("NO")))) {
                 writeTestCasesInfoIntoExcel(reportLogFileName, "TestCases_Info", String.valueOf(Thread.currentThread().getId()), map.get("TEST_CASES").toString(), "", "Fail");
             }
         }
