@@ -473,54 +473,7 @@ public class Web_Control_Methods {
         return methodStatus;
     }
 
-    //Get_Header_Title_Equals
-    public static boolean Get_Header_Title_Equals(int rownumber, Page page, HashMap map, String reportLogFileName) throws IOException {
-        boolean methodStatus = false;
-        try {
-            waitForPageLoad(page);
-            Page.WaitForSelectorOptions optionsForElementLoad = new Page.WaitForSelectorOptions().setTimeout(60000);
-            ElementHandle elementActualHeaderTitle = waitForAnElement(page, map.get("ATTRIBUTE_VALUE").toString(), 30000);
-            if (elementActualHeaderTitle.isVisible()) {
-                String actualHeaderTitle = elementActualHeaderTitle.textContent();
-                String expectedHeaderTitle = map.get("CONTROL_VALUE").toString();
-                if (actualHeaderTitle.equals(expectedHeaderTitle)) {
-                    methodStatus = true;
-                    return methodStatus;
-                }
-            }
-        } catch (Exception e) {
-            writeLogsInfoIntoExcel(reportLogFileName, "Logs_Info", String.valueOf(Thread.currentThread().getId()), "Error", e.toString());
-            writeLogsInfoIntoExcel(reportLogFileName, "Logs_Info", String.valueOf(Thread.currentThread().getId()), "Error", Arrays.toString(e.getStackTrace()));
-        } finally {
-            writeTCsInfoIntoExcel(page, reportLogFileName, map, methodStatus);
-        }
-        return methodStatus;
-    }
 
-    //Get_Header_Title_Contains
-    public static boolean Get_Header_Title_Contains(int rownumber, Page page, HashMap map, String reportLogFileName) throws IOException {
-        boolean methodStatus = false;
-        try {
-            waitForPageLoad(page);
-            Page.WaitForSelectorOptions optionsForElementLoad = new Page.WaitForSelectorOptions().setTimeout(60000);
-            ElementHandle elementActualHeaderTitle = waitForAnElement(page, map.get("ATTRIBUTE_VALUE").toString(), 30000);
-            assert elementActualHeaderTitle != null;
-            if (elementActualHeaderTitle.isVisible()) {
-                String actualHeaderTitle = elementActualHeaderTitle.textContent();
-                String expectedHeaderTitle = map.get("CONTROL_VALUE").toString();
-                if (actualHeaderTitle.contains(expectedHeaderTitle)) {
-                    methodStatus = true;
-                    return methodStatus;
-                }
-            }
-        } catch (Exception e) {
-            writeLogsInfoIntoExcel(reportLogFileName, "Logs_Info", String.valueOf(Thread.currentThread().getId()), "Error", e.toString());
-            writeLogsInfoIntoExcel(reportLogFileName, "Logs_Info", String.valueOf(Thread.currentThread().getId()), "Error", Arrays.toString(e.getStackTrace()));
-        } finally {
-            writeTCsInfoIntoExcel(page, reportLogFileName, map, methodStatus);
-        }
-        return methodStatus;
-    }
 
     //Select_Value_From_Dropdown
     public static boolean Select_Value_From_Dropdown(int rownumber, Page page, HashMap map, String reportLogFileName) throws IOException {
@@ -697,7 +650,7 @@ public class Web_Control_Methods {
             FileChooser fileChooser = page.waitForFileChooser(() -> {
                 page.getByText(map.get("CONTROL_VALUE").toString()).click();
             });
-            fileChooser.setFiles(Paths.get(System.getProperty("user.dir") + "\\src\\test\\java\\Upload_Test_Files\\Dharanija.jpeg"));
+            fileChooser.setFiles(Paths.get(System.getProperty("user.dir") + "\\src\\test\\java\\Upload_Test_Files\\Sample_Image_File.jpeg"));
             methodStatus = true;
         } catch (Exception e) {
             writeLogsInfoIntoExcel(reportLogFileName, "Logs_Info", String.valueOf(Thread.currentThread().getId()), "Error", e.toString());

@@ -1,10 +1,14 @@
 package Framework_Methods;
+
 import com.microsoft.playwright.*;
+
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.HashMap;
+
 import static Framework_Methods.Generic_Methods.writeLogsInfoIntoExcel;
 import static Framework_Methods.Web_Control_Common_Methods.*;
+
 public class Link {
     //Link_Click
     public static boolean Link_Click(int rownumber, Page page, HashMap map, String reportLogFileName) throws IOException {
@@ -26,17 +30,18 @@ public class Link {
                     if (linkLocator.isEnabled()) {
                         writeLogsInfoIntoExcel(reportLogFileName, "Logs_Info", String.valueOf(Thread.currentThread().getId()), "Info", linkName + " " + "Link is Enabled");
                         linkLocator.click();
+                        writeLogsInfoIntoExcel(reportLogFileName, "Logs_Info", String.valueOf(Thread.currentThread().getId()), "Info", linkName + " " + "Link has been clicked successfully");
                     } else {
                         methodStatus = false;
                         writeLogsInfoIntoExcel(reportLogFileName, "Logs_Info", String.valueOf(Thread.currentThread().getId()), "Error", linkName + " " + "Link is not Enabled");
+                        writeLogsInfoIntoExcel(reportLogFileName, "Logs_Info", String.valueOf(Thread.currentThread().getId()), "Error", linkName + " " + "Link click was unsuccessful");
                     }
                 } else {
                     methodStatus = false;
                     writeLogsInfoIntoExcel(reportLogFileName, "Logs_Info", String.valueOf(Thread.currentThread().getId()), "Error", linkName + " " + "Link is not Visible");
                 }
-                writeLogsInfoIntoExcel(reportLogFileName, "Logs_Info", String.valueOf(Thread.currentThread().getId()), "Info", linkName + " " + "Link has been clicked successfully");
             } else {
-                writeLogsInfoIntoExcel(reportLogFileName, "Logs_Info", String.valueOf(Thread.currentThread().getId()), "Error", linkName + " " + "Link click was unsuccessful");
+
             }
         } catch (Exception e) {
             writeLogsInfoIntoExcel(reportLogFileName, "Logs_Info", String.valueOf(Thread.currentThread().getId()), "Error", e.toString());
@@ -84,9 +89,9 @@ public class Link {
                     methodStatus = false;
                     writeLogsInfoIntoExcel(reportLogFileName, "Logs_Info", String.valueOf(Thread.currentThread().getId()), "Error", linkName + " " + "Link is not Visible");
                 }
-                writeLogsInfoIntoExcel(reportLogFileName, "Logs_Info", String.valueOf(Thread.currentThread().getId()), "Info", linkName + " " + "Link name verification is successful");
+                //writeLogsInfoIntoExcel(reportLogFileName, "Logs_Info", String.valueOf(Thread.currentThread().getId()), "Info", linkName + " " + "Link name verification is successful");
             } else {
-                writeLogsInfoIntoExcel(reportLogFileName, "Logs_Info", String.valueOf(Thread.currentThread().getId()), "Error", linkName + " " + "Link name verification was unsuccessful");
+                //writeLogsInfoIntoExcel(reportLogFileName, "Logs_Info", String.valueOf(Thread.currentThread().getId()), "Error", linkName + " " + "Link name verification was unsuccessful");
             }
         } catch (Exception e) {
             writeLogsInfoIntoExcel(reportLogFileName, "Logs_Info", String.valueOf(Thread.currentThread().getId()), "Error", e.toString());
@@ -134,9 +139,9 @@ public class Link {
                     methodStatus = false;
                     writeLogsInfoIntoExcel(reportLogFileName, "Logs_Info", String.valueOf(Thread.currentThread().getId()), "Error", linkName + " " + "Link is not Visible");
                 }
-                writeLogsInfoIntoExcel(reportLogFileName, "Logs_Info", String.valueOf(Thread.currentThread().getId()), "Info", linkName + " " + "Link name verification is successful");
+                //writeLogsInfoIntoExcel(reportLogFileName, "Logs_Info", String.valueOf(Thread.currentThread().getId()), "Info", linkName + " " + "Link name verification is successful");
             } else {
-                writeLogsInfoIntoExcel(reportLogFileName, "Logs_Info", String.valueOf(Thread.currentThread().getId()), "Error", linkName + " " + "Link name verification was unsuccessful");
+                //writeLogsInfoIntoExcel(reportLogFileName, "Logs_Info", String.valueOf(Thread.currentThread().getId()), "Error", linkName + " " + "Link name verification was unsuccessful");
             }
         } catch (Exception e) {
             writeLogsInfoIntoExcel(reportLogFileName, "Logs_Info", String.valueOf(Thread.currentThread().getId()), "Error", e.toString());
@@ -185,9 +190,9 @@ public class Link {
                     methodStatus = false;
                     writeLogsInfoIntoExcel(reportLogFileName, "Logs_Info", String.valueOf(Thread.currentThread().getId()), "Error", linkName + " " + "Link is not Visible");
                 }
-                writeLogsInfoIntoExcel(reportLogFileName, "Logs_Info", String.valueOf(Thread.currentThread().getId()), "Info", linkName + " " + "Link name verification is successful");
+                //writeLogsInfoIntoExcel(reportLogFileName, "Logs_Info", String.valueOf(Thread.currentThread().getId()), "Info", linkName + " " + "Link name verification is successful");
             } else {
-                writeLogsInfoIntoExcel(reportLogFileName, "Logs_Info", String.valueOf(Thread.currentThread().getId()), "Error", linkName + " " + "Link name verification was unsuccessful");
+                //writeLogsInfoIntoExcel(reportLogFileName, "Logs_Info", String.valueOf(Thread.currentThread().getId()), "Error", linkName + " " + "Link name verification was unsuccessful");
             }
         } catch (Exception e) {
             writeLogsInfoIntoExcel(reportLogFileName, "Logs_Info", String.valueOf(Thread.currentThread().getId()), "Error", e.toString());
@@ -206,4 +211,98 @@ public class Link {
         }
         return methodStatus;
     }
+
+    //Verify_Is_Link_Enabled
+    public static boolean Verify_Is_Link_Enabled(int rownumber, Page page, HashMap map, String reportLogFileName) throws IOException {
+        boolean methodStatus = false;
+        String linkName = "";
+        Locator linkLocator = null;
+        try {
+            waitForPageLoad(page);
+            if ((map.get("ATTRIBUTE_VALUE").toString()).contains("%s")) {
+                linkLocator = page.locator(String.format(map.get("ATTRIBUTE_VALUE").toString(), map.get("CONTROL_VALUE").toString()));
+            } else {
+                linkLocator = page.locator(map.get("ATTRIBUTE_VALUE").toString());
+            }
+            methodStatus = waitForPageLocator(page, linkLocator);
+            if (methodStatus) {
+                if (linkLocator.isVisible()) {
+                    linkName = linkLocator.textContent();
+                    writeLogsInfoIntoExcel(reportLogFileName, "Logs_Info", String.valueOf(Thread.currentThread().getId()), "Info", linkName + " " + "Link is Visible");
+                    if (linkLocator.isEnabled()) {
+                        writeLogsInfoIntoExcel(reportLogFileName, "Logs_Info", String.valueOf(Thread.currentThread().getId()), "Info", linkName + " " + "Link is Enabled");
+                    } else {
+                        methodStatus = false;
+                        writeLogsInfoIntoExcel(reportLogFileName, "Logs_Info", String.valueOf(Thread.currentThread().getId()), "Error", linkName + " " + "Link is not Enabled");
+                    }
+                } else {
+                    methodStatus = false;
+                    writeLogsInfoIntoExcel(reportLogFileName, "Logs_Info", String.valueOf(Thread.currentThread().getId()), "Error", linkName + " " + "Link is not Visible");
+                }
+            }
+        } catch (Exception e) {
+            writeLogsInfoIntoExcel(reportLogFileName, "Logs_Info", String.valueOf(Thread.currentThread().getId()), "Error", e.toString());
+            writeLogsInfoIntoExcel(reportLogFileName, "Logs_Info", String.valueOf(Thread.currentThread().getId()), "Error", Arrays.toString(e.getStackTrace()));
+        } finally {
+            assert linkLocator != null;
+            int elementCount = linkLocator.count();
+            if (elementCount > 0) {
+                writeTCsInfoIntoExcelWithElementMarking(page, reportLogFileName, map, methodStatus);
+            } else {
+                writeTCsInfoIntoExcel(page, reportLogFileName, map, methodStatus);
+            }
+        }
+        if (map.get("VALIDATION_TYPE").equals("Partial_Assertion")) {
+            methodStatus = true;
+        }
+        return methodStatus;
+    }
+
+    //Verify_Is_Link_Disabled
+    public static boolean Verify_Is_Link_Disabled(int rownumber, Page page, HashMap map, String reportLogFileName) throws IOException {
+        boolean methodStatus = false;
+        String linkName = "";
+        Locator linkLocator = null;
+        try {
+            waitForPageLoad(page);
+            if ((map.get("ATTRIBUTE_VALUE").toString()).contains("%s")) {
+                linkLocator = page.locator(String.format(map.get("ATTRIBUTE_VALUE").toString(), map.get("CONTROL_VALUE").toString()));
+            } else {
+                linkLocator = page.locator(map.get("ATTRIBUTE_VALUE").toString());
+            }
+            methodStatus = waitForPageLocator(page, linkLocator);
+            if (methodStatus) {
+                if (linkLocator.isVisible()) {
+                    linkName = linkLocator.textContent();
+                    writeLogsInfoIntoExcel(reportLogFileName, "Logs_Info", String.valueOf(Thread.currentThread().getId()), "Info", linkName + " " + "Link is Visible");
+                    if (linkLocator.isDisabled()) {
+                        writeLogsInfoIntoExcel(reportLogFileName, "Logs_Info", String.valueOf(Thread.currentThread().getId()), "Info", linkName + " " + "Link is Disabled");
+                    } else {
+                        methodStatus = false;
+                        writeLogsInfoIntoExcel(reportLogFileName, "Logs_Info", String.valueOf(Thread.currentThread().getId()), "Error", linkName + " " + "Link is not Disabled");
+                    }
+                } else {
+                    methodStatus = false;
+                    writeLogsInfoIntoExcel(reportLogFileName, "Logs_Info", String.valueOf(Thread.currentThread().getId()), "Error", linkName + " " + "Link is not Visible");
+                }
+            }
+        } catch (Exception e) {
+            writeLogsInfoIntoExcel(reportLogFileName, "Logs_Info", String.valueOf(Thread.currentThread().getId()), "Error", e.toString());
+            writeLogsInfoIntoExcel(reportLogFileName, "Logs_Info", String.valueOf(Thread.currentThread().getId()), "Error", Arrays.toString(e.getStackTrace()));
+        } finally {
+            assert linkLocator != null;
+            int elementCount = linkLocator.count();
+            if (elementCount > 0) {
+                writeTCsInfoIntoExcelWithElementMarking(page, reportLogFileName, map, methodStatus);
+            } else {
+                writeTCsInfoIntoExcel(page, reportLogFileName, map, methodStatus);
+            }
+        }
+        if (map.get("VALIDATION_TYPE").equals("Partial_Assertion")) {
+            methodStatus = true;
+        }
+        return methodStatus;
+    }
+
+
 }

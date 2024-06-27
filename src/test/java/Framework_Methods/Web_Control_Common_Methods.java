@@ -109,9 +109,11 @@ public class Web_Control_Common_Methods {
         }
         if(locatorInReadyState)
         {
-            System.out.println("Element 'your_locator' is available.");
+            //System.out.println("Element 'your_locator' is available.");
+            // Scroll the element into view using JavaScript evaluation
+            locator.evaluateHandle("(element) => { element.scrollIntoView({ behavior: 'smooth', block: 'center' }); }");
         }else{
-            System.out.println("Element 'your_locator' is not available.");
+            System.out.println("Element "+ locator+" is not available.");
         }
         return locatorInReadyState;
     }
@@ -245,41 +247,7 @@ public class Web_Control_Common_Methods {
     }
 
 
-    //Wait_For_Short_Time
-    public static boolean Wait_For_Short_Time(int rownumber, Page page, HashMap map, String reportLogFileName) {
-        boolean methodStatus = false;
-        try {
-            Thread.sleep(5000);
-            methodStatus = true;
-        } catch (Exception e) {
-            System.out.println(e.toString());
-        }
-        return methodStatus;
-    }
 
-    //Wait_For_Medium_Time
-    public static boolean Wait_For_Medium_Time(int rownumber, Page page, HashMap map, String reportLogFileName) {
-        boolean methodStatus = false;
-        try {
-            Thread.sleep(7500);
-            methodStatus = true;
-        } catch (Exception e) {
-            System.out.println(e.toString());
-        }
-        return methodStatus;
-    }
-
-    //Wait_For_Long_Time
-    public static boolean Wait_For_Long_Time(int rownumber, Page page, HashMap map, String reportLogFileName) {
-        boolean methodStatus = false;
-        try {
-            Thread.sleep(10000);
-            methodStatus = true;
-        } catch (Exception e) {
-            System.out.println(e.toString());
-        }
-        return methodStatus;
-    }
 
 
 }

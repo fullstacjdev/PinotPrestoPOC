@@ -9,6 +9,9 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -51,14 +54,17 @@ public class Framework_Main extends Thread {
     public void run() {
         boolean strMethodsReturnStatus = false;
         long threadId = Thread.currentThread().getId();
-        //String executionStartTime = String.valueOf(new SimpleDateFormat("HH:mm:ss").format(new Date()));
         String executionStartTime = getCurrentTime();
         Playwright playwright = Playwright.create();
         Browser browser = null;
         Page page = null;
+        BrowserContext context = null;
         if (browserName.equalsIgnoreCase("Chrome")) {
-            page = getBrowser(playwright, browserName).launch(new BrowserType.LaunchOptions().setHeadless(false)
-                            .setChannel("chrome").setArgs(List.of("--start-maximized", "--incognito")))
+            page = getBrowser(playwright, browserName)
+                    .launch(new BrowserType.LaunchOptions()
+                            .setHeadless(false)
+                            .setChannel("chrome")
+                            .setArgs(List.of("--start-maximized", "--incognito")))
                     .newContext(new Browser.NewContextOptions().setViewportSize(null))
                     .newPage();
         } else if (browserName.equalsIgnoreCase("Firefox")) {
@@ -96,6 +102,7 @@ public class Framework_Main extends Thread {
             page = browserContext.newPage();
         }
         assert browser != null;
+
         FileInputStream fis = null;
         try {
             fis = new FileInputStream(executionDataSheetPathAndName);
@@ -166,6 +173,10 @@ public class Framework_Main extends Thread {
         }
         assert page != null;
         page.close();
+        /*assert context != null;
+        context.close();*/
+        /*assert browser != null;
+        browser.close();*/
         playwright.close();
         //String executionEndTime = new SimpleDateFormat("HH:mm:ss").format(new Date());
         String executionEndTime = getCurrentTime();
@@ -205,6 +216,8 @@ public class Framework_Main extends Thread {
     //Main method
     public static void main(String[] args) throws IOException, NoSuchFieldException, ClassNotFoundException, InvocationTargetException, NoSuchMethodException, IllegalAccessException, InstantiationException {
         try {
+            clearCookiesForChrome();
+            clearCookiesForEdge();
             String[] filenames = ListFilesExample();
             System.out.println(filenames.length);
             for (String filename : filenames) {
@@ -447,5 +460,92 @@ public class Framework_Main extends Thread {
         long hours = (milliseconds / (1000 * 60 * 60)) % 24;
         return String.format("%02d:%02d:%02d", hours, minutes, seconds);
     }
+
+
+
+    public static void clearCookiesForChrome()
+    {
+        // Determine the OS
+        String os = System.getProperty("os.name").toLowerCase();
+        // Set the cookies file path based on OS
+        String chromeUserDataDir = "";
+        if (os.contains("win")) {
+            chromeUserDataDir = System.getenv("LOCALAPPDATA") + "\\Google\\Chrome\\User Data\\";
+            System.out.println(chromeUserDataDir);
+        } else if (os.contains("mac")) {
+            chromeUserDataDir = System.getProperty("user.home") + "/Library/Application Support/Google/Chrome/Default/Cookies";
+        } else if (os.contains("nix") || os.contains("nux") || os.contains("aix")) {
+            chromeUserDataDir = System.getProperty("user.home") + "/.config/google-chrome/Default/Cookies";
+        } else {
+            System.out.println("Unsupported operating system: " + os);
+            return;
+        }
+
+        // Create a Path object for cookies file
+        Path chromeUserDataPath  = Paths.get(chromeUserDataDir);
+
+        try {
+            // Check if the Chrome user data directory exists
+            if (Files.exists(chromeUserDataPath)) {
+                // Delete the Chrome user data directory recursively
+                deleteDirectory(chromeUserDataPath);
+                System.out.println("Chrome user data including cookies have been successfully deleted.");
+            } else {
+                System.out.println("Chrome user data directory not found.");
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    // Method to recursively delete a directory and its contents
+    private static void deleteDirectory(Path directory) throws IOException {
+        Files.walk(directory)
+                .sorted(Comparator.reverseOrder())
+                .map(Path::toFile)
+                .forEach(File::delete);
+    }
+
+    public static void clearCookiesForEdge()
+    {
+        // Determine the OS
+        String os = System.getProperty("os.name").toLowerCase();
+        // Set the cookies file path based on OS
+        String chromeUserDataDir = "";
+        if (os.contains("win")) {
+            chromeUserDataDir = System.getenv("LOCALAPPDATA") + "\\Microsoft\\Edge\\User Data\\";
+            System.out.println(chromeUserDataDir);
+        } else if (os.contains("mac")) {
+            chromeUserDataDir = System.getProperty("user.home") + "/Library/Application Support/Google/Chrome/Default/Cookies";
+        } else if (os.contains("nix") || os.contains("nux") || os.contains("aix")) {
+            chromeUserDataDir = System.getProperty("user.home") + "/.config/google-chrome/Default/Cookies";
+        } else {
+            System.out.println("Unsupported operating system: " + os);
+            return;
+        }
+
+        // Create a Path object for cookies file
+        Path chromeUserDataPath  = Paths.get(chromeUserDataDir);
+
+        try {
+            // Check if the Chrome user data directory exists
+            if (Files.exists(chromeUserDataPath)) {
+                // Delete the Chrome user data directory recursively
+                deleteDirectory(chromeUserDataPath);
+                System.out.println("Edge user data including cookies have been successfully deleted.");
+            } else {
+                System.out.println("Edge user data directory not found.");
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+   /* // Method to recursively delete a directory and its contents
+    private static void deleteDirectory(Path directory) throws IOException {
+        Files.walk(directory)
+                .sorted(Comparator.reverseOrder())
+                .map(Path::toFile)
+                .forEach(File::delete);
+    }*/
+
 
 }
